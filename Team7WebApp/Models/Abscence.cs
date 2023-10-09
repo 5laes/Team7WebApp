@@ -6,14 +6,14 @@ namespace Team7WebAPI.Models
     public class Abscence
     {
         [Key]
-        int id { get; set; }
-        int typeID { get; set; }
-        int days { get; set; }
-        int daysRequested { get; set; }
-        int personID { get; set; }
-        bool pending { get; set; }
-        bool approved { get; set; }
-        DateTime leaveStart { get; set; }
-        DateTime leaveEnd { get; set; }
+		public int id { get; set; }
+		public int typeID { get; set; }
+		public int days { get; set; }
+		public int daysRequested { get; set; }
+		public int personID { get; set; }
+		public bool pending { get; set; }
+		public bool approved { get; set; }
+		public DateTime leaveStart { get; set; }
+		public DateTime leaveEnd { get; set; }
     }
 }

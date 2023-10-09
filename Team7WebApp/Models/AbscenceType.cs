@@ -5,8 +5,8 @@ namespace Team7WebAPI.Models
     public class AbscenceType
     {
         [Key]
-        int id { get; set; }
-        string typeName { get; set; }
-        int days { get; set; }
+		public int id { get; set; }
+		public string typeName { get; set; }
+		public int days { get; set; }
     }
 }

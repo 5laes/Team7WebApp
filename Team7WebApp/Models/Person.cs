@@ -5,10 +5,11 @@ namespace Team7WebAPI.Models
     public class Person
     {
         [Key]
-        int id { get; set; }
-        string name { get; set; }
-        bool isAdmin { get; set; }
-        string email { get; set; }
-        int age { get; set; }
+        public int id { get; set; }
+		public string name { get; set; }
+        public string password { get; set; }
+		public bool isAdmin { get; set; }
+		public string email { get; set; }
+		public int age { get; set; }
     }
 }
