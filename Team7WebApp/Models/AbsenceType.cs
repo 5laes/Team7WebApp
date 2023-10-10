@@ -2,7 +2,7 @@
 
 namespace Team7WebApp.Models
 {
-    public class AbscenceType
+    public class AbsenceType
     {
         [Key]
         public int id { get; set; }
