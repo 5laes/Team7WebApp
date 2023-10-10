@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Team7WebAPI.Models;
+using Team7WebApp.Models;
 
 namespace Team7WebApp.Data
 {
