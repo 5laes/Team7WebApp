@@ -85,7 +85,6 @@ namespace Team7WebApp
 
 
             //Kan fixa error handling vid tid=> validation för namn osv
-            //
             app.MapPost("/api/Person", async (Person person, IAppRepository<Person> respository) =>
             {
                 ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
@@ -134,6 +133,161 @@ namespace Team7WebApp
             // ENDPOINT FOR PERSON END
             //----------------------------------------------------------------------------------------------------------------------
             //ENDPOINT FOR ABSENCE START
+            app.MapGet("/api/Absence", async (IAppRepository<Absence> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetAllAsync();
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(200);
+
+            app.MapGet("/api/Absence/{id:int}", async (int id, IAppRepository<Absence> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetAllFromSingleAsync(id);
+
+
+                if (response.Result == null)
+                {
+                    response.IsSuccess = false;
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.ErrorMessages.Add($"No Absence-raport found with this id :{id}");
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(200).Produces(404);
+
+            //Kan fixa error handling vid tid=> validation för namn osv
+            //
+
+            ///ADDD CREATEDTO  
+            app.MapPost("/api/Absence", async (Absence absence, IAppRepository<Absence> respository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+
+                absence.dayRequested = DateTime.Now;
+
+                //ADD DAYSCALCULATION from start to end samt days antal
+
+                response.Result = await respository.AddAsync(absence);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("Not valid addition");
+                    return Results.BadRequest(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.Created;
+                return Results.Ok(response);
+            }).Accepts<Absence>("Application/json").Produces<ApiResponse>(201).Produces(400);
+
+            app.MapPut("/api/Absence", async (Absence absence, IAppRepository<Absence> repository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+
+                response.Result = await repository.UpdateAsync(absence);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("No Absence-raport with thid Id exists!");
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Accepts<Absence>("Application/json").Produces<ApiResponse>(200).Produces(400);
+
+            app.MapDelete("/api/Absence/{id:int}", async (int id, IAppRepository<Absence> repository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.NotFound };
+
+                response.Result = await repository.DeleteAsync(id);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("No Absence-raport with thid Id exists!");
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.NoContent;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(204).Produces(404);
+            // ENDPOINT FOR Absence END
+            //----------------------------------------------------------------------------------------------------------------------
+            //ENDPOINT FOR ABSENCETYPES START
+            //-------------------------------------------------------------------------------------------
+            app.MapGet("/api/AbsenceType", async (IAppRepository<AbsenceType> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetAllAsync();
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(200);
+
+            app.MapGet("/api/AbsenceType/{id:int}", async (int id, IAppRepository<AbsenceType> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetAllFromSingleAsync(id);
+
+                if (response.Result == null)
+                {
+                    response.IsSuccess = false;
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.ErrorMessages.Add($"No AbsenceType found with this id :{id}");
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(200).Produces(404);
+
+            app.MapPost("/api/AbsenceType", async (AbsenceType absence, IAppRepository<AbsenceType> respository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+
+                response.Result = await respository.AddAsync(absence);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("Not valid addition");
+                    return Results.BadRequest(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.Created;
+                return Results.Ok(response);
+            }).Accepts<AbsenceType>("Application/json").Produces<ApiResponse>(201).Produces(400);
+
+            app.MapPut("/api/AbsenceType", async (AbsenceType absence, IAppRepository<AbsenceType> repository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
+
+                response.Result = await repository.UpdateAsync(absence);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("No AbsenceType with thid Id exists!");
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Accepts<AbsenceType>("Application/json").Produces<ApiResponse>(200).Produces(400);
+
+            app.MapDelete("/api/AbsenceType/{id:int}", async (int id, IAppRepository<AbsenceType> repository) =>
+            {
+                ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.NotFound };
+
+                response.Result = await repository.DeleteAsync(id);
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("No AbsenceType with thid Id exists!");
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.NoContent;
+                return Results.Ok(response);
+            }).Produces<AbsenceType>(204).Produces(404);
 
 
 
@@ -141,6 +295,9 @@ namespace Team7WebApp
 
 
 
+            //Validation för post , put 
+            //DTO för absence och absencetypes
+            //days caculation osv
             app.Run();
         }
     }
