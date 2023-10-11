@@ -177,11 +177,7 @@ namespace Team7WebApp
             }).Produces<ApiResponse>(200).Produces(404);
 
 
-
-            //Kan fixa error handling vid tid=> validation för namn osv
-            //
-
-
+            // ADD ABSENCE
             app.MapPost("/api/Absence",
             async (
             [FromServices] IValidator<AbsenceCreateDTO> validator,
@@ -223,22 +219,43 @@ namespace Team7WebApp
             }).Accepts<AbsenceCreateDTO>("application/json").Produces<ApiResponse>(201).Produces(400);
 
 
-
-            app.MapPut("/api/Absence", async (Absence absence, IAppRepository<Absence> repository) =>
+            // UPDATE ABSENCE
+            app.MapPut("/api/Absence", 
+            async (
+			[FromServices] IValidator<AbsenceUpdateDTO> validator,
+			[FromServices] IMapper _mapper,
+			[FromBody] AbsenceUpdateDTO U_Absense_DTO,
+			IAppRepository<Absence> repository) =>
             {
                 ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
 
+				var validateInput = await validator.ValidateAsync(U_Absense_DTO);
+				if (!validateInput.IsValid)
+				{
+					foreach (var err in validateInput.Errors.ToList())
+					{
+						response.ErrorMessages.Add(err.ToString());
+					}
+					return Results.BadRequest(response);
+				}
+
+                Absence absence = _mapper.Map<Absence>(U_Absense_DTO);
+
                 response.Result = await repository.UpdateAsync(absence);
+
                 if (response.Result == null)
                 {
-                    response.ErrorMessages.Add("No Absence-raport with thid Id exists!");
+                    response.ErrorMessages.Add($"ERROR: Failed updating absence! No absence with id {U_Absense_DTO.id} found!");
                     response.StatusCode = System.Net.HttpStatusCode.NotFound;
                     return Results.NotFound(response);
                 }
+
+                response.Result = _mapper.Map<AbsenceUpdateDTO>(absence);
                 response.IsSuccess = true;
                 response.StatusCode = System.Net.HttpStatusCode.OK;
+
                 return Results.Ok(response);
-            }).Accepts<Absence>("Application/json").Produces<ApiResponse>(200).Produces(400);
+			}).Accepts<AbsenceUpdateDTO>("Application/json").Produces<ApiResponse>(200).Produces(400);
 
 
 

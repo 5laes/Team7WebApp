@@ -9,6 +9,7 @@ namespace Team7WebApp
 		public MappingConfig()
 		{
 			CreateMap<Absence, AbsenceCreateDTO>().ReverseMap();
+			CreateMap<Absence, AbsenceUpdateDTO>().ReverseMap();
 		}
 	}
 }

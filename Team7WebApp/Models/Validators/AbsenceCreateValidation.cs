@@ -7,7 +7,7 @@ namespace Team7WebApp.Models.Validators
 	{
 		public AbsenceCreateValidation()
 		{
-			RuleFor(model => model.typeID).NotEmpty();
+			RuleFor(model => model.typeID).NotEmpty().GreaterThan(0);
 			RuleFor(model => model.leaveStart).NotEmpty();
 			RuleFor(model => model.leaveEnd).NotEmpty();
 		}

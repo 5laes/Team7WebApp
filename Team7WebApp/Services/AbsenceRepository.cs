@@ -45,12 +45,8 @@ namespace Team7WebApp.Services
             var result = await _context.Absences.FirstOrDefaultAsync(x => x.id == newEntity.id);
             if (result != null)
             {
-                result.days = newEntity.days;
-                result.typeID = newEntity.typeID;
                 result.pending = newEntity.pending;
                 result.approved = newEntity.approved;
-                result.leaveStart = newEntity.leaveStart;
-                result.leaveEnd = newEntity.leaveEnd;
                 await _context.SaveChangesAsync();
                 return result;
             }
