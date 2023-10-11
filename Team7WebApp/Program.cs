@@ -1,7 +1,10 @@
-
+using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Team7WebApp.Data;
 using Team7WebApp.Models;
+using Team7WebApp.Models.DTOs;
 using Team7WebApp.Services;
 
 namespace Team7WebApp
@@ -39,7 +42,11 @@ namespace Team7WebApp
             builder.Services.AddScoped<IAppRepository<Absence>, AbsenceRepository>();
             builder.Services.AddScoped<IAppRepository<AbsenceType>, AbsenceTypeRepository>();
 
-            var app = builder.Build();
+			// This is for Mapper and Validator to work
+			builder.Services.AddValidatorsFromAssemblyContaining<AbsenceCreateDTO>();
+			builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -65,6 +72,8 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200);
 
+
+
             app.MapGet("/api/Person/{id:int}", async (int id, IAppRepository<Person> repository) =>
             {
                 ApiResponse response = new ApiResponse();
@@ -84,6 +93,7 @@ namespace Team7WebApp
             }).Produces<ApiResponse>(200).Produces(404);
 
 
+
             //Kan fixa error handling vid tid=> validation för namn osv
             app.MapPost("/api/Person", async (Person person, IAppRepository<Person> respository) =>
             {
@@ -100,6 +110,8 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Accepts<Person>("Application/json").Produces<ApiResponse>(201).Produces(400);
 
+
+
             app.MapPut("/api/Person", async (Person person, IAppRepository<Person> repository) =>
             {
                 ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
@@ -115,6 +127,8 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Results.Ok(response);
             }).Accepts<Person>("Application/json").Produces<ApiResponse>(200).Produces(400);
+
+
 
             app.MapDelete("/api/Person/{id:int}", async (int id, IAppRepository<Person> repository) =>
             {
@@ -142,6 +156,8 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200);
 
+
+
             app.MapGet("/api/Absence/{id:int}", async (int id, IAppRepository<Absence> repository) =>
             {
                 ApiResponse response = new ApiResponse();
@@ -160,28 +176,53 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200).Produces(404);
 
+
+
             //Kan fixa error handling vid tid=> validation för namn osv
             //
 
-            ///ADDD CREATEDTO  
-            app.MapPost("/api/Absence", async (Absence absence, IAppRepository<Absence> respository) =>
+
+            app.MapPost("/api/Absence",
+            async (
+            [FromServices] IValidator<AbsenceCreateDTO> validator,
+            [FromServices] IMapper _mapper,
+            [FromBody] AbsenceCreateDTO C_Absense_DTO,
+            IAppRepository<Absence> repository) =>
             {
                 ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
 
-                absence.dayRequested = DateTime.Now;
-
-                //ADD DAYSCALCULATION from start to end samt days antal
-
-                response.Result = await respository.AddAsync(absence);
-                if (response.Result == null)
+                var validateInput = await validator.ValidateAsync(C_Absense_DTO);
+                if (!validateInput.IsValid)
                 {
-                    response.ErrorMessages.Add("Not valid addition");
+                    foreach (var err in validateInput.Errors.ToList())
+                    {
+                        response.ErrorMessages.Add(err.ToString());
+                    }
                     return Results.BadRequest(response);
                 }
+
+                Absence absence = _mapper.Map<Absence>(C_Absense_DTO);
+                absence.dayRequested = DateTime.Now;
+                absence.days = (int)(absence.leaveEnd - absence.leaveStart).TotalDays; // counts weekend days as well (NOT GOOD)
+                absence.pending = true;
+                absence.approved = false;
+
+                response.Result = await repository.AddAsync(absence);
+
+                if (response.Result == null)
+                {
+                    response.ErrorMessages.Add("Error: Failed to add absence to DB");
+                    return Results.BadRequest(response);
+                }
+
+                response.Result = _mapper.Map<AbsenceCreateDTO>(absence);
                 response.IsSuccess = true;
                 response.StatusCode = System.Net.HttpStatusCode.Created;
                 return Results.Ok(response);
-            }).Accepts<Absence>("Application/json").Produces<ApiResponse>(201).Produces(400);
+
+            }).Accepts<AbsenceCreateDTO>("application/json").Produces<ApiResponse>(201).Produces(400);
+
+
 
             app.MapPut("/api/Absence", async (Absence absence, IAppRepository<Absence> repository) =>
             {
@@ -198,6 +239,8 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Results.Ok(response);
             }).Accepts<Absence>("Application/json").Produces<ApiResponse>(200).Produces(400);
+
+
 
             app.MapDelete("/api/Absence/{id:int}", async (int id, IAppRepository<Absence> repository) =>
             {
@@ -226,6 +269,8 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200);
 
+
+
             app.MapGet("/api/AbsenceType/{id:int}", async (int id, IAppRepository<AbsenceType> repository) =>
             {
                 ApiResponse response = new ApiResponse();
@@ -243,6 +288,8 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200).Produces(404);
 
+
+
             app.MapPost("/api/AbsenceType", async (AbsenceType absence, IAppRepository<AbsenceType> respository) =>
             {
                 ApiResponse response = new ApiResponse() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
@@ -257,6 +304,8 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.Created;
                 return Results.Ok(response);
             }).Accepts<AbsenceType>("Application/json").Produces<ApiResponse>(201).Produces(400);
+
+
 
             app.MapPut("/api/AbsenceType", async (AbsenceType absence, IAppRepository<AbsenceType> repository) =>
             {
@@ -273,6 +322,8 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Results.Ok(response);
             }).Accepts<AbsenceType>("Application/json").Produces<ApiResponse>(200).Produces(400);
+
+
 
             app.MapDelete("/api/AbsenceType/{id:int}", async (int id, IAppRepository<AbsenceType> repository) =>
             {
