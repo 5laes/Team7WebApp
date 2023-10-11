@@ -34,7 +34,7 @@ namespace Team7WebApp.Services
 
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            return (IEnumerable<Person>)await _context.Persons.ToListAsync();
+            return await _context.Persons.ToListAsync();
         }
 
         public async Task<Person> GetAllFromSingleAsync(int Id)
@@ -47,11 +47,11 @@ namespace Team7WebApp.Services
             var result= await _context.Persons.FirstOrDefaultAsync(p =>p.id == updatedPerson.id);
             if(result != null)
             {
-                result.name=updatedPerson.name;
+                result.name = updatedPerson.name;
                 result.password = updatedPerson.password;
-                result.isAdmin= updatedPerson.isAdmin;
-                result.email=updatedPerson.email;
-                result.age=updatedPerson.age;
+                result.isAdmin = updatedPerson.isAdmin;
+                result.email = updatedPerson.email;
+                result.age = updatedPerson.age;
 
                 await _context.SaveChangesAsync();
                 return result;
