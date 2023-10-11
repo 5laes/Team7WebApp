@@ -10,6 +10,10 @@ namespace Team7WebApp
 		{
 			CreateMap<Absence, AbsenceCreateDTO>().ReverseMap();
 			CreateMap<Absence, AbsenceUpdateDTO>().ReverseMap();
+			CreateMap<AbsenceType, AbsenceTypeCreateDTO>().ReverseMap();
+			CreateMap<AbsenceType, AbsenceTypeUpdateDTO>().ReverseMap();
+			CreateMap<Person, PersonCreateDTO>().ReverseMap();
+			CreateMap<Person, PersonUpdateDTO>().ReverseMap();
 		}
 	}
 }
