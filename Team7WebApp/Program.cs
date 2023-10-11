@@ -14,18 +14,18 @@ namespace Team7WebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            ////adding cors policy! 
-            //builder.Services.AddCors(options =>
-            //{
-            //    options.AddPolicy("CORSPolicy",
-            //        builder =>
-            //        {
-            //            builder
-            //            .AllowAnyMethod()
-            //            .AllowAnyHeader()
-            //            .WithOrigins("http://localhost:3000");//route of local react application
-            //        });
-            //});
+            //adding cors policy! 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CORSPolicy",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:3000");//route of local react application
+                    });
+            });
 
             // Add services to the container.
             builder.Services.AddAuthorization();
