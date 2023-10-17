@@ -3,7 +3,7 @@ import './App.css';
 import AdminPage from './Components/AdminPage';
 import React, { useState } from 'react';
 import PersonPage from './Components/PersonPage';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   const [showPersonPage, setShowPersonPage] = useState(false);
