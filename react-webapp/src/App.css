@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+button{
+background-color:#61dafb;
+/* 
+height: 5rem;
+width: 20rem;
+font-size: x-large; */
+}
 .App-logo {
   height: 5vmin;
   pointer-events: none;
