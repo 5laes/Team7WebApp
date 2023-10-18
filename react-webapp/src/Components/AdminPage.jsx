@@ -1,4 +1,9 @@
-import React from 'react'
+import React, { useState } from "react";
+import { AdminNavBar } from "./AdminNavbar";
+import EmployeePage from "./EmployeePage";
+import AbsenceType from "./AbsenceTypePage";
+import Appliances from "./AppliancesPage";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 let names=["Pedro", "Jose", "Gabriel","Pedro"];
 
@@ -15,10 +20,13 @@ names.filter((namNet)=>{
 
 export default function AdminPage() {
   return (
-    <div>
-      <p>admin</p>
-      <p>admin</p>
-      <button onClick={()=>{console.log('hello from anonymous function')}}>consolebutton</button>
-    </div>
+    <Router>
+      <AdminNavBar />
+      <Routes>
+        <Route exact path="/employees" element={<EmployeePage />} />
+        <Route exact path="/absencetype" element={<AbsenceType />} />
+        <Route exact path="/appliances" element={<Appliances />} />
+      </Routes>
+    </Router>
   );
 }

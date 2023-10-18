@@ -62,6 +62,8 @@ namespace Team7WebApp
 
             app.UseAuthorization();
 
+            app.UseCors("CORSPolicy");
+
 
             //----------------------------------------------------------------------------------------------------------------------
             //ENDPOINTS FOR PERSON START
