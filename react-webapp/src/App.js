@@ -3,12 +3,20 @@ import './App.css';
 import AdminPage from './Components/AdminPage';
 import React, { useState } from 'react';
 import PersonPage from './Components/PersonPage';
-
+import { LoginPage } from './Components/LoginPage';
+import { Register } from './Components/Register';
 
 export default function App() {
   const [showPersonPage, setShowPersonPage] = useState(false);
   const [showAdminPage, setShowAdminPage] = useState(false); //visar adminpage, false för den visar inte från start
   const [showSTD, setShowSTD] = useState(false);//visar function StuffToDo, false för den visar inte från start
+  const [count, setCount] = useState(0);
+  console.log(count);
+  const handleClick = () => {
+    setCount(count + 1);
+    // setCount((tidVal)=>tidVal+1);//above would not work
+    // setCount((tidVal)=>tidVal+1);//saves SAME value
+  }
 
   const toggleSTD = () => {
     setShowSTD(!showSTD);          //togglefuntionerna. använder 'set' för att kontrollera värdet och sätter värdet till motsatsen.
@@ -38,19 +46,28 @@ export default function App() {
 
 
 
+
   return (
     <div className="App">
       <header className="App-header">
+        <LoginPage />
+        {/* <Register /> */}
+
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Start Page <br /><small>(for loggin in and eventual authentication/authorization)</small><br /> Some stuff to do</p>
         <button onClick={toggleAdminPage}>AdminPage</button>         {/* Knappen för att visa/dölja AdminPage */}
-        <button onClick={toggleSTD}>Show StuffToDo</button>
-        <button onClick={togglePersonPage}>show PersonPage</button>
+        <button onClick={togglePersonPage}>PersonPage</button>
+        <button onClick={toggleSTD}>Show Stuff To Do</button>
 
         {showAdminPage && <AdminPage />} {/* Shows value of showAdminPage && component AdminPage*/}
-        {showSTD && <StuffToDo />}
         {showPersonPage && <PersonPage />}
+        {showSTD && <StuffToDo />}
+
+
+        <p>{count}</p>
+        <button onClick={handleClick} >Counter</button>
+
 
       </header>
     </div>

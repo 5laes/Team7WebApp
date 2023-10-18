@@ -4,11 +4,11 @@ using Team7WebApp.Models;
 
 namespace Team7WebApp.Services
 {
-    public class PersonRepository : IAppRepository<Person>
+    public class PersonRepository : IAppRepository<Person>, IPersonRepository<Person>
     {
         private readonly AppDbContext _context;
 
-        public PersonRepository( AppDbContext context)
+        public PersonRepository(AppDbContext context)
         {
             this._context = context;
         }
@@ -42,10 +42,15 @@ namespace Team7WebApp.Services
             return await _context.Persons.FirstOrDefaultAsync(p => p.id == Id);
         }
 
+        public async Task<Person> GetPersonByEmailAsync(string email)
+        {
+            return await _context.Persons.FirstOrDefaultAsync(p => p.email.ToLower() == email.ToLower());
+        }
+
         public async Task<Person> UpdateAsync(Person updatedPerson)
         {
-            var result= await _context.Persons.FirstOrDefaultAsync(p =>p.id == updatedPerson.id);
-            if(result != null)
+            var result = await _context.Persons.FirstOrDefaultAsync(p => p.id == updatedPerson.id);
+            if (result != null)
             {
                 result.name = updatedPerson.name;
                 result.password = updatedPerson.password;
