@@ -58,11 +58,10 @@ namespace Team7WebApp
             }
 
             app.UseHttpsRedirection();
+
             app.UseCors("CORSPolicy");
 
             app.UseAuthorization();
-
-            app.UseCors("CORSPolicy");
 
 
             //----------------------------------------------------------------------------------------------------------------------

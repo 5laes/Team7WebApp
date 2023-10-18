@@ -6,6 +6,9 @@ export default function PersonPage() {
       <p>person</p>
       <p>person</p>
       <p>person</p>
+      <div>
+        {localStorage.key(0)}
+      </div>
     </div>
   )
 }
