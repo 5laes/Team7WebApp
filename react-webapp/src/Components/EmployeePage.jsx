@@ -25,13 +25,13 @@ export default function EmployeePage() {
     setShowTable(false);
   }
   return (
-    <div className="container">
-      <button onClick={getPersons} className="btn btn-light btn-lg">
+    <div className="container mt-3">
+      <button onClick={getPersons} className="btn btn-success btn-lg">
         All Employees
       </button>
       {showTable && renderPersonstable()}
       {showTable && (
-        <button onClick={handleBackclick} className="btn btn-light btn-lg">
+        <button onClick={handleBackclick} className="btn btn-success btn-lg">
           Back
         </button>
       )}

@@ -39,6 +39,7 @@ namespace Team7WebApp
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
 
             builder.Services.AddScoped<IAppRepository<Person>, PersonRepository>();
+            builder.Services.AddScoped<IAbsenceRepository<Absence>, AbsenceRepository>();
             builder.Services.AddScoped<IPersonRepository<Person>, PersonRepository>();
             builder.Services.AddScoped<IAppRepository<Absence>, AbsenceRepository>();
             builder.Services.AddScoped<IAppRepository<AbsenceType>, AbsenceTypeRepository>();
@@ -243,7 +244,22 @@ namespace Team7WebApp
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200).Produces(404);
 
-
+            app.MapGet("/api/Absence/PersonID/{id:int}", async (int id, IAbsenceRepository<Absence> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetAbsencesByPersonID(id);
+                var amount = await repository.GetAbsencesByPersonID(id);
+                if (response.Result == null || !amount.Any()) //checks is IEnumerable is empty
+                {
+                    response.IsSuccess = false;
+                    response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                    response.ErrorMessages.Add($"No person found with this PersonID :{id}");
+                    return Results.NotFound(response);
+                }
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            }).Produces<ApiResponse>(200).Produces(404);
 
             app.MapPost("/api/Absence",
             async (
@@ -372,7 +388,6 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200).Produces(404);
-
 
 
             app.MapPost("/api/AbsenceType",

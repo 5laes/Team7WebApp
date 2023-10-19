@@ -23,8 +23,7 @@ export default function App() {
       url
     );
 
-    if(response.data.result.password === password)
-    {
+    if (response.data.result.password === password) {
       // set the state of the user
       setUser(response.data)
 
@@ -34,23 +33,22 @@ export default function App() {
       localStorage.setItem(response.data.result.id, response.data)
       console.log(response.data)
     }
-    else
-    {
+    else {
       alert("wrong password");
     }
   };
 
-// checks if the person who is logged in is an admin or not
+  // checks if the person who is logged in is an admin or not
   if (user) {
-    if(user.result.isAdmin){
-      return <AdminPage/>;
+    if (user.result.isAdmin) {
+      return <AdminPage />;
     }
-    return <PersonPage/>;
+    return <PersonPage />;
   }
 
   // if there's no user, show the login form
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='container mt-5'>
       <label htmlFor="email">Email: </label>
       <input
         type="text"
@@ -58,7 +56,7 @@ export default function App() {
         placeholder="enter a email"
         onChange={({ target }) => setEmail(target.value)}
       />
-      <div>
+      <div className='mt-1'>
         <label htmlFor="password">password: </label>
         <input
           type="password"
@@ -67,12 +65,12 @@ export default function App() {
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" className="btn btn-success btn-sm">Login</button>
     </form>
   );
 };
 
-//function som visas när man trycker på knapp 
+//function som visas när man trycker på knapp
 // function StuffToDo() {
 //   return (
 //     <div>
@@ -118,70 +116,70 @@ export default function App() {
 
 //-----------------------------------------
 
-  // const [showPersonPage, setShowPersonPage] = useState(false);
-  // const [showAdminPage, setShowAdminPage] = useState(false); //visar adminpage, false för den visar inte från start
-  // const [showSTD, setShowSTD] = useState(false);//visar function StuffToDo, false för den visar inte från start
-  // const [count, setCount] = useState(0);
-  // console.log(count);
-  // const handleClick = () => {
-  //   setCount(count + 1);
-  //   // setCount((tidVal)=>tidVal+1);//above would not work
-  //   // setCount((tidVal)=>tidVal+1);//saves SAME value
-  // }
+// const [showPersonPage, setShowPersonPage] = useState(false);
+// const [showAdminPage, setShowAdminPage] = useState(false); //visar adminpage, false för den visar inte från start
+// const [showSTD, setShowSTD] = useState(false);//visar function StuffToDo, false för den visar inte från start
+// const [count, setCount] = useState(0);
+// console.log(count);
+// const handleClick = () => {
+//   setCount(count + 1);
+//   // setCount((tidVal)=>tidVal+1);//above would not work
+//   // setCount((tidVal)=>tidVal+1);//saves SAME value
+// }
 
-  // const toggleSTD = () => {
-  //   setShowSTD(!showSTD);          //togglefuntionerna. använder 'set' för att kontrollera värdet och sätter värdet till motsatsen.
-  //   if (!showSTD) {         // om 'show' så sätts showadmin till false för att INTE visa adminpage
-  //     setShowAdminPage(false);
-  //     setShowPersonPage(false);
-  //   }
-  // };
+// const toggleSTD = () => {
+//   setShowSTD(!showSTD);          //togglefuntionerna. använder 'set' för att kontrollera värdet och sätter värdet till motsatsen.
+//   if (!showSTD) {         // om 'show' så sätts showadmin till false för att INTE visa adminpage
+//     setShowAdminPage(false);
+//     setShowPersonPage(false);
+//   }
+// };
 
-  // const toggleAdminPage = () => {
-  //   setShowAdminPage(!showAdminPage);
-  //   if (!showAdminPage) {
-  //     setShowSTD(false);
-  //     setShowPersonPage(false);
-  //   }
-  // };
-
-
-  // const togglePersonPage = () => {
-  //   setShowPersonPage(!showPersonPage);
-  //   if (!showPersonPage) {
-  //     setShowSTD(false);
-  //     setShowAdminPage(false);
-  //   }
-  // };
+// const toggleAdminPage = () => {
+//   setShowAdminPage(!showAdminPage);
+//   if (!showAdminPage) {
+//     setShowSTD(false);
+//     setShowPersonPage(false);
+//   }
+// };
 
 
+// const togglePersonPage = () => {
+//   setShowPersonPage(!showPersonPage);
+//   if (!showPersonPage) {
+//     setShowSTD(false);
+//     setShowAdminPage(false);
+//   }
+// };
 
 
 
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <LoginPage />
-  //       {/* <Register /> */}
-
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Start Page <br /><small>(for loggin in and eventual authentication/authorization)</small><br /> Some stuff to do</p>
-  //       <button onClick={toggleAdminPage}>AdminPage</button>         {/* Knappen för att visa/dölja AdminPage */}
-  //       <button onClick={togglePersonPage}>PersonPage</button>
-  //       <button onClick={toggleSTD}>Show Stuff To Do</button>
-
-  //       {showAdminPage && <AdminPage />} {/* Shows value of showAdminPage && component AdminPage*/}
-  //       {showPersonPage && <PersonPage />}
-  //       {showSTD && <StuffToDo />}
 
 
-  //       <p>{count}</p>
-  //       <button onClick={handleClick} >Counter</button>
+// return (
+//   <div className="App">
+//     <header className="App-header">
+//       <LoginPage />
+//       {/* <Register /> */}
+
+//       <img src={logo} className="App-logo" alt="logo" />
+//       <p>
+//         Start Page <br /><small>(for loggin in and eventual authentication/authorization)</small><br /> Some stuff to do</p>
+//       <button onClick={toggleAdminPage}>AdminPage</button>         {/* Knappen för att visa/dölja AdminPage */}
+//       <button onClick={togglePersonPage}>PersonPage</button>
+//       <button onClick={toggleSTD}>Show Stuff To Do</button>
+
+//       {showAdminPage && <AdminPage />} {/* Shows value of showAdminPage && component AdminPage*/}
+//       {showPersonPage && <PersonPage />}
+//       {showSTD && <StuffToDo />}
 
 
-  //     </header>
-  //   </div>
-  // );
+//       <p>{count}</p>
+//       <button onClick={handleClick} >Counter</button>
+
+
+//     </header>
+//   </div>
+// );
 
 
