@@ -67,11 +67,6 @@ export default function EmployeePage() {
       {currentUpdate !== null && (
         <UpdateEmployee person={currentUpdate} onEmpUpdated={onEmpUpdated} />
       )}
-      {showTable && (
-        <button onClick={handleBackclick} className="btn btn-light btn-lg">
-          Back
-        </button>
-      )}
     </div>
   );
   function renderPersonstable() {
@@ -108,7 +103,7 @@ export default function EmployeePage() {
                 <td>
                   <button
                     onClick={() => setCurrentUpdate(person)}
-                    className="btn btn-success btn-lg"
+                    className="btn btn-secondary btn-lg"
                   >
                     Update
                   </button>
@@ -130,6 +125,9 @@ export default function EmployeePage() {
             ))}
           </tbody>
         </table>
+        <button onClick={handleBackclick} className="btn btn-light btn-lg">
+          Cancel
+        </button>
       </div>
     );
   }

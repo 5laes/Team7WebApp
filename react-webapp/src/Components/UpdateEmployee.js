@@ -86,8 +86,8 @@ export default function UpdateEmployee(props) {
 
 
 
-            <button onClick={handleSubmit} className="btn btn-dark btn-lg w-100 mt-5">Save</button>
-            <button onClick={() => props.onEmpUpdated(null)} className="btn btn-secondary btn-lg w-100 mt-3">Cancel</button>
+            <button onClick={handleSubmit} className="btn btn-dark btn-lg mt-5">Save</button>
+            <button onClick={() => props.onEmpUpdated(null)} className="btn btn-secondary btn-lg mt-5">Cancel</button>
         </form>
     );
 }
