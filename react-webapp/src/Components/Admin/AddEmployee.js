@@ -5,7 +5,6 @@ export default function AddEmployee(props) {
     const [formData, setFormData] = useState({
         name: '',
         password: '',
-
         email: '',
         age: '',
     });
@@ -22,7 +21,6 @@ export default function AddEmployee(props) {
             id: 0,
             name: formData.name,
             password: formData.password,
-
             email: formData.email,
             age: formData.age,
         };
@@ -63,7 +61,7 @@ export default function AddEmployee(props) {
             </div>
             <div className="mt-5">
                 <label className="h3 form-label">Age</label>
-                <input value={formData.age} name="age" type="text" className="form-control" onChange={handleChange}></input>
+                <input value={formData.age} name="age" type="number" className="form-control" onChange={handleChange}></input>
             </div>
 
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import AddAbsenceType from "./AddAbsenceType";
 
 export default function AbsenceType() {
   const [types, setTypes] = useState([]);
   const [showTable, setShowTable] = useState(false);
-  //   const [showAddForm, setShowAddForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
   //   const [currentUpdate, setCurrentUpdate] = useState(null);
   function getTypes() {
     const url = "https://localhost:7139/api/AbsenceType";
@@ -31,20 +32,19 @@ export default function AbsenceType() {
         <button onClick={getTypes} className="btn btn-light btn-lg">
           All Types of Absences
         </button>
-        {/* <button
-            onClick={() => setShowAddForm(true)}
-            className="btn btn-light btn-lg"
-          >
-            Add new Type of Absence
-          </button> */}
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="btn btn-light btn-lg"
+        >
+          Add new Type of Absence
+        </button>
       </div>
-      {showTable && renderTypetable()}
-      {/* {showTable &&
+      {showTable &&
         showAddForm === false &&
-        currentUpdate === null &&
-        renderPersonstable()} */}
-      {/* {showAddForm && <AddEmployee onEmployeeAdded={onEmployeeAdded} />}
-      {currentUpdate !== null && (
+        // currentUpdate === null &&
+        renderTypetable()}
+      {showAddForm && <AddAbsenceType onTypeAdded={onTypeAdded} />}
+      {/*{currentUpdate !== null && (
         <UpdateEmployee person={currentUpdate} onEmpUpdated={onEmpUpdated} />
       )} */}
     </div>
@@ -97,5 +97,14 @@ export default function AbsenceType() {
         </button>
       </div>
     );
+  }
+  function onTypeAdded(addedType) {
+    setShowAddForm(false);
+
+    if (addedType === null) {
+      return;
+    }
+    alert(`New Type of Absence was added`);
+    setShowTable(false);
   }
 }
