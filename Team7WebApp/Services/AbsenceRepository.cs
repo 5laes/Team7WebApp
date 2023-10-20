@@ -4,7 +4,7 @@ using Team7WebApp.Models;
 
 namespace Team7WebApp.Services
 {
-    public class AbsenceRepository : IAppRepository<Absence>
+    public class AbsenceRepository : IAppRepository<Absence>, IAbsenceRepository<Absence>
     {
         private AppDbContext _context;
         public AbsenceRepository(AppDbContext context)
@@ -28,6 +28,11 @@ namespace Team7WebApp.Services
                 return result;
             }
             return null;
+        }
+
+        public async Task<IEnumerable<Absence>> GetAbsencesByPersonID(int id)
+        {
+            return await _context.Absences.Where(x => x.personID == id).ToListAsync();
         }
 
         public async Task<IEnumerable<Absence>> GetAllAsync()
