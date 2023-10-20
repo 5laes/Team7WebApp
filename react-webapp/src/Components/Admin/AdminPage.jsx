@@ -6,7 +6,19 @@ import EmployeePage from "./EmployeePage";
 import AbsenceType from "./AbsenceTypePage";
 import Appliances from "./AppliancesPage";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
- 
+
+let names = ["Pedro", "Jose", "Gabriel", "Pedro"];
+
+names.map((namn) => {
+  return "Mr. " + namn;
+  //above adds to the variables(REPLACES value)
+  // return <h1>{namn}</h1>  //returns h1
+});
+
+names.filter((namNet) => {
+  return namNet !== "Pedro"; //excludes PedroS
+});
+
 export default function AdminPage() {
 
   const { auth, setAuth } = useAuth();

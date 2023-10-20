@@ -1,63 +1,95 @@
-import React, { useState } from "react";
-import '../App.css';
-import AbsenceCreateForm from "./AbsenceCreateForm";
+// import React, { useState } from "react";
+// import '../App.css';
+// import AbsenceCreateForm from "./AbsenceCreateForm";
 
 
 
-export default function PersonPage(props) {
-  const { user } = props; // Hämta användardata från props
+// export default function PersonPage(props) {
+//   const { user } = props; // Hämta användardata från props
 
-const [absences, setAbsences] = useState([]);
-const [showTable, setShowTable] = useState(false);
-const [showCreate, setShowCreate]= useState(false);
+// const [absences, setAbsences] = useState([]);
+// const [showTable, setShowTable] = useState(false);
+// const [showCreate, setShowCreate]= useState(false);
 
-    function getAbsences() {
-      const url = `https://localhost:7139/api/Absence/PersonID/${localStorage.key(0)}`;  
-      fetch(url, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((absencesfromServer) => {
-          console.log(absencesfromServer);
-          setAbsences(absencesfromServer);
-          setShowTable(true);
-          setShowCreate(false);
+//     function getAbsences() {
+//       const url = `https://localhost:7139/api/Absence/PersonID/${localStorage.key(0)}`;  
+//       fetch(url, {
+//         method: "GET",
+//       })
+//         .then((response) => response.json())
+//         .then((absencesfromServer) => {
+//           console.log(absencesfromServer);
+//           setAbsences(absencesfromServer);
+//           setShowTable(true);
+//           setShowCreate(false);
 
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
-    }
-    function handleBackclick() {
-      setShowTable(false);
-    }
-    return (
-      <div className="container mt-3">
-        <button onClick={getAbsences} className="btn btn-success btn-lg">
-          Absence-raports
-        </button>
-        <button onClick= {createAbsence}className="btn btn-success btn-lg mx-2">
-          Create new     
-        </button>
-        {showCreate && (<> 
-        <AbsenceCreateForm/>
-         <button onClick={() => setShowCreate(false)} className="btn btn-dark btn-lg mt-2 w-100 mx-2">
-         Back
-       </button>
-        </>
-        )}
-        {showTable && renderAbsencestable()}
-        {showTable && (
-          <button onClick={handleBackclick} className="btn btn-dark btn-lg">
-            Back
-          </button>
-        )}
-         
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//           alert(error);
+//         });
+//     }
+//     function handleBackclick() {
+//       setShowTable(false);
+//     }
+//     return (
+//       <div className="container mt-3">
+//         <button onClick={getAbsences} className="btn btn-success btn-lg">
+//           Absence-raports
+//         </button>
+//         <button onClick= {createAbsence}className="btn btn-success btn-lg mx-2">
+//           Create new     
+//         </button>
+//         {showCreate && (<> 
+//         <AbsenceCreateForm/>
+//          <button onClick={() => setShowCreate(false)} className="btn btn-dark btn-lg mt-2 w-100 mx-2">
+//          Back
+//        </button>
+//         </>
+//         )}
+//         {showTable && renderAbsencestable()}
+//         {showTable && (
+//           <button onClick={handleBackclick} className="btn btn-dark btn-lg">
+//             Back
+//           </button>
+//         )}
+import React from 'react'
+import useAuth from '../Hooks/useAuth';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+
+export default function PersonPage() {
+
+  const { auth, setAuth } = useAuth();
+  const location = useLocation();
+
+  const logout = async () => {
+    setAuth({});
+  }
+
+  // cheap "rolecheck" because of BD and backend design
+  if(auth.isAdmin === true)
+  {
+    return <Navigate to="/admin" state={{ from: location}} replace />
+  }
+
+  return (
+    <div>
+      <p>person</p>
+      <p>person</p>
+      <p>person</p>
+      <div>
+        {auth.id}
+      </div>
+      <div>
+        {auth.name}
+      </div>
+      <div>
+        <button onClick={logout}>Sign Out</button>
+      </div>
       </div>
     );
 
-    function createAbsence(){
+    {/* function createAbsence(){
       setShowTable(false);
       setShowCreate(true);
     }
@@ -101,6 +133,6 @@ const [showCreate, setShowCreate]= useState(false);
           </table>
         </div>
       );
-    }
+    } */
   }
-
+}

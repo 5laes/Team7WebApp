@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 export const AdminNavBar = () => {
     return (
         <Navbar display="flex" bg="dark" variant="dark" expand="sm" className="pb-3">
-            <Container>
+            <Container>                
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
