@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import useAuth from '../Hooks/useAuth';
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { AdminNavBar } from "./AdminNavbar";
 import EmployeePage from "./EmployeePage";
 import AbsenceType from "./AbsenceTypePage";
@@ -18,14 +20,35 @@ names.filter((namNet) => {
 });
 
 export default function AdminPage() {
+
+  const { auth, setAuth } = useAuth();
+  const location = useLocation();
+
+  const logout = async () => {
+    setAuth({});
+  }
+
+  // cheap "rolecheck" because of BD and backend design
+  if(auth.isAdmin === false)
+  {
+    return <Navigate to="/person" state={{ from: location}} replace />
+  }
+
   return (
-    <Router>
-      <AdminNavBar />
-      <Routes>
-        <Route exact path="/employees" element={<EmployeePage />} />
-        <Route exact path="/absencetype" element={<AbsenceType />} />
-        <Route exact path="/appliances" element={<Appliances />} />
-      </Routes>
-    </Router>
+    <div>
+      <div>{auth.id}</div>
+      <div>{auth.name}</div>
+      <div>
+        <button onClick={logout}>Sign Out</button>
+      </div>
+    </div>
+    // <Router>
+    //   <AdminNavBar />
+    //   <Routes>
+    //     <Route exact path="/employees" element={<EmployeePage />} />
+    //     <Route exact path="/absencetype" element={<AbsenceType />} />
+    //     <Route exact path="/appliances" element={<Appliances />} />
+    //   </Routes>
+    // </Router>
   );
 }

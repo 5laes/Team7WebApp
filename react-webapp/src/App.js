@@ -1,15 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+<<<<<<< HEAD
 import AdminPage from './Components/Admin/AdminPage';
 import React, { useState } from 'react';
 import PersonPage from './Components/PersonPage';
+=======
+>>>>>>> c12be06 (auth added)
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { LoginPage } from './Components/LoginPage';
-import { Register } from './Components/Register';
-import axios from "axios";
-import Constants from './Utilities/Constants';
+import Login from './Components/Login';
+import { Routes, Route } from 'react-router-dom'
+import Layout from './Components/Layout';
+import RequireAuth from './Components/RequireAuth';
+import AdminPage from './Components/AdminPage'
+import PersonPage from './Components/PersonPage'
+
 
 export default function App() {
+<<<<<<< HEAD
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState()
@@ -47,27 +53,22 @@ export default function App() {
   }
 
   // if there's no user, show the login form
+=======
+>>>>>>> c12be06 (auth added)
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email: </label>
-      <input
-        type="text"
-        value={email}
-        placeholder="enter a email"
-        onChange={({ target }) => setEmail(target.value)}
-      />
-      <div>
-        <label htmlFor="password">password: </label>
-        <input
-          type="password"
-          value={password}
-          placeholder="enter a password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="login" element={<Login/>} />
+
+        {/*Cant fix rolebased auth because of how DB and backend is built*/}
+        <Route element={<RequireAuth />}>
+          <Route path="admin" element={<AdminPage/>} />
+          <Route path="person" element={<PersonPage/>} />
+        </Route>
+      </Route>
+    </Routes>
   );
+<<<<<<< HEAD
 };
 
 //function som visas när man trycker på knapp
@@ -183,3 +184,6 @@ export default function App() {
 // );
 
 
+=======
+};
+>>>>>>> c12be06 (auth added)
