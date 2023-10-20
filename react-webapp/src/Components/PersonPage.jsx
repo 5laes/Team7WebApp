@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import '../App.css';
+import AbsenceCreateForm from "./AbsenceCreateForm";
+
+
 
 export default function PersonPage(props) {
   const { user } = props; // Hämta användardata från props
 
 const [absences, setAbsences] = useState([]);
 const [showTable, setShowTable] = useState(false);
-
+const [showCreate, setShowCreate]= useState(false);
 
     function getAbsences() {
       const url = `https://localhost:7139/api/Absence/PersonID/${localStorage.key(0)}`;  
@@ -18,6 +21,8 @@ const [showTable, setShowTable] = useState(false);
           console.log(absencesfromServer);
           setAbsences(absencesfromServer);
           setShowTable(true);
+          setShowCreate(false);
+
         })
         .catch((error) => {
           console.log(error);
@@ -32,15 +37,32 @@ const [showTable, setShowTable] = useState(false);
         <button onClick={getAbsences} className="btn btn-success btn-lg">
           Absence-raports
         </button>
-        <p>Hej PERSON Med id:     {localStorage.key(0)}     </p>
+        <button onClick= {createAbsence}className="btn btn-success btn-lg mx-2">
+          Create new     
+        </button>
+        {showCreate && (<> 
+        <AbsenceCreateForm/>
+         <button onClick={() => setShowCreate(false)} className="btn btn-dark btn-lg mt-2 w-100 mx-2">
+         Back
+       </button>
+        </>
+        )}
         {showTable && renderAbsencestable()}
         {showTable && (
-          <button onClick={handleBackclick} className="btn btn-success btn-lg">
+          <button onClick={handleBackclick} className="btn btn-dark btn-lg">
             Back
           </button>
         )}
+         
       </div>
     );
+
+    function createAbsence(){
+      setShowTable(false);
+      setShowCreate(true);
+    }
+
+
 
     function renderAbsencestable() {
       return (
@@ -70,10 +92,10 @@ const [showTable, setShowTable] = useState(false);
                   <td>{new Date(absence.leaveStart).toLocaleDateString('sv-SE')}</td>
                   <td>{new Date(absence.leaveEnd).toLocaleDateString('sv-SE')}</td>
                   <td style={{ background: absence.pending ? 'pink' : 'lightgreen' }}>
-  {absence.pending ? '[Awaiting]' : '[Confirmed]'}</td>
-  <td style={{ background: absence.approved ? 'lightgreen' : 'red' }}>
-  {absence.approved ? '[Approved]' : '[Not approved]'}
-</td>                </tr>
+                  {absence.pending ? '[Awaiting]' : '[Confirmed]'}</td>
+                  <td style={{ background: absence.approved ? 'lightgreen' : 'red' }}>
+                  {absence.approved ? '[Approved]' : '[Not approved]'}
+                </td> </tr>
               ))}
             </tbody>
           </table>
@@ -81,3 +103,4 @@ const [showTable, setShowTable] = useState(false);
       );
     }
   }
+

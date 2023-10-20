@@ -31,7 +31,7 @@ export default function EmployeePage() {
       </button>
       {showTable && renderPersonstable()}
       {showTable && (
-        <button onClick={handleBackclick} className="btn btn-success btn-lg">
+        <button onClick={handleBackclick} className="btn btn-success btn-lg mb-2">
           Back
         </button>
       )}

@@ -74,7 +74,6 @@ export default function App() {
 // function StuffToDo() {
 //   return (
 //     <div>
-
 //       <div>
 //         <ul>
 //           <li>Admin/Person page Get all = List of absence(raport) </li>
@@ -83,13 +82,10 @@ export default function App() {
 //             <li>///Person functions add/delete </li>
 //           </ul>
 //           <li>Admin page get all = list of absenceType </li>
-//           <li>Admin page get all = list of persons</li>
 //           <li>Admin page for = create Person </li>
-//           <li>Admin/Person page for = getall list absent(raports) page</li>
 //           <li>Admin page for = create-absenceType </li>
 //         </ul>
 //       </div>
-
 //       <p>other stuff later...</p>
 //       <div>
 //         <ul>
@@ -99,13 +95,10 @@ export default function App() {
 //           </li>
 //           <li>Administratören ska kunna filtrera ansökningar efter status (godkänd, avslagen, väntande).
 //           </li>
-//           <li>Personalen ska kunna se alla sina tidigare ansökningar och deras status.
-//           </li>
-//           <li>Administratören ska kunna se en översikt över total använd ledighetstid för varje ledighetstyp.
-//           </li>
 //           <li>Systemet ska ha en funktion för att spara och exportera rapporter över använd ledighetstid för varje ledighetstyp under en viss tidsperiod.
 //           </li>
-//           <li>Appen ska vara online och publicerad på Azure.</li>
+//           <li>Appen ska vara online och publicerad på Azure.
+//           </li>
 //           <li>Readme!</li>
 //         </ul>
 //       </div>
