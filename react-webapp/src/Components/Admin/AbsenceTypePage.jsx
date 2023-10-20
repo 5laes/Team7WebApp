@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import AddAbsenceType from "./AddAbsenceType";
+import UpdateAbsenceType from "./UpdateAbsenceType";
 
 export default function AbsenceType() {
   const [types, setTypes] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
-  //   const [currentUpdate, setCurrentUpdate] = useState(null);
+  const [currentUpdate, setCurrentUpdate] = useState(null);
   function getTypes() {
     const url = "https://localhost:7139/api/AbsenceType";
 
@@ -26,27 +27,45 @@ export default function AbsenceType() {
   function handleBackclick() {
     setShowTable(false);
   }
+  function deleteType(id) {
+    const url = `https://localhost:7139/api/AbsenceType/${id}`;
+
+    fetch(url, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((responseFromServer) => {
+        console.log(responseFromServer);
+        onTypeDeleted(id);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+  }
   return (
     <div className="container">
-      <div>
-        <button onClick={getTypes} className="btn btn-light btn-lg">
-          All Types of Absences
-        </button>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="btn btn-light btn-lg"
-        >
-          Add new Type of Absence
-        </button>
-      </div>
+      {showAddForm === false && currentUpdate === null && (
+        <div>
+          <button onClick={getTypes} className="btn btn-light btn-lg">
+            All Types of Absences
+          </button>
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="btn btn-light btn-lg"
+          >
+            Add new Type of Absence
+          </button>
+        </div>
+      )}
       {showTable &&
         showAddForm === false &&
-        // currentUpdate === null &&
+        currentUpdate === null &&
         renderTypetable()}
       {showAddForm && <AddAbsenceType onTypeAdded={onTypeAdded} />}
-      {/*{currentUpdate !== null && (
-        <UpdateEmployee person={currentUpdate} onEmpUpdated={onEmpUpdated} />
-      )} */}
+      {currentUpdate !== null && (
+        <UpdateAbsenceType type={currentUpdate} onTypeUpdated={onTypeUpdated} />
+      )}
     </div>
   );
   function renderTypetable() {
@@ -67,9 +86,9 @@ export default function AbsenceType() {
                 <th scope="row">{type.id}</th>
                 <td>{type.typeName}</td>
                 <td>{type.days}</td>
-                {/* <td> */}
-                {/* <button
-                    onClick={() => setCurrentUpdate(person)}
+                <td>
+                  <button
+                    onClick={() => setCurrentUpdate(type)}
                     className="btn btn-secondary btn-lg"
                   >
                     Update
@@ -78,16 +97,16 @@ export default function AbsenceType() {
                     onClick={() => {
                       if (
                         window.confirm(
-                          `Are you sure you want to delete "${person.name}"?`
+                          `Are you sure you want to delete "${type.typeName}"?`
                         )
                       )
-                        deleteEmployee(person.id);
+                        deleteType(type.id);
                     }}
                     className="btn btn-dark btn-lg"
                   >
                     Delete
                   </button>
-                </td> */}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -105,6 +124,47 @@ export default function AbsenceType() {
       return;
     }
     alert(`New Type of Absence was added`);
+    setShowTable(false);
+  }
+  function onTypeUpdated(updatedType) {
+    setCurrentUpdate(null);
+
+    if (updatedType === null) {
+      return;
+    }
+    let typesCopy = [...types.result];
+
+    const index = typesCopy.findIndex((typesCopyType) => {
+      if (typesCopyType.id === updatedType.id) {
+        return true;
+      }
+    });
+    if (index !== -1) {
+      typesCopy[index] = updatedType;
+    }
+
+    setTypes(typesCopy);
+
+    alert(`"${updatedType.typeName}" is updated.`);
+    setShowTable(false);
+  }
+  function onTypeDeleted(deletedType) {
+    let typesCopy = [...types.result];
+
+    const index = typesCopy.findIndex((typesCopyType) => {
+      if (typesCopyType.id === deletedType.id) {
+        return true;
+      }
+    });
+
+    if (index !== -1) {
+      typesCopy.splice(index, 1);
+    }
+
+    setTypes(typesCopy);
+
+    alert("Type of Absence deleted");
+
     setShowTable(false);
   }
 }
