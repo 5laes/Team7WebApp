@@ -1,10 +1,13 @@
 import './App.css';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import AdminPage from './Components/Admin/AdminPage';
 import React, { useState } from 'react';
 import PersonPage from './Components/PersonPage';
 =======
 >>>>>>> c12be06 (auth added)
+=======
+>>>>>>> master
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
 import { Routes, Route } from 'react-router-dom'
@@ -15,6 +18,7 @@ import PersonPage from './Components/PersonPage'
 
 
 export default function App() {
+<<<<<<< HEAD
 <<<<<<< HEAD
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,6 +59,8 @@ export default function App() {
   // if there's no user, show the login form
 =======
 >>>>>>> c12be06 (auth added)
+=======
+>>>>>>> master
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -68,6 +74,7 @@ export default function App() {
       </Route>
     </Routes>
   );
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 };
@@ -191,3 +198,6 @@ export default function App() {
 =======
 };
 >>>>>>> 85835af (more fix, structure and start of AbsenceTypes)
+=======
+};
+>>>>>>> master
