@@ -1,7 +1,11 @@
 using AutoMapper;
+using BCrypt.Net;
 using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using Team7WebApp.Data;
 using Team7WebApp.Models;
 using Team7WebApp.Models.DTOs;
@@ -23,7 +27,8 @@ namespace Team7WebApp
                         builder
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .WithOrigins("http://localhost:3000");//route of local react application
+                        .WithOrigins("http://localhost:3000")
+                        .WithOrigins("https://localhost:7139");//route of local react application
                     });
             });
 
@@ -95,6 +100,35 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
                 return Results.Ok(response);
             }).Produces<ApiResponse>(200).Produces(404);
+
+
+
+            app.MapPost("/api/Person/Login",
+            async (
+            [FromBody] PersonLoginDTO L_person_DTO,
+            IPersonRepository<Person> repository) =>
+            {
+                ApiResponse response = new ApiResponse();
+                response.Result = await repository.GetPersonByEmailAsync(L_person_DTO.email);
+
+                if (response.Result == null)
+                {
+                    response.IsSuccess = false;
+                    response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+					response.ErrorMessages.Add($"{L_person_DTO.email} is not registered");
+					return Results.BadRequest(response);
+				}
+
+                Person person = (Person)response.Result;
+                person.password = BCrypt.Net.BCrypt.HashPassword(person.password);
+
+                if (!BCrypt.Net.BCrypt.Verify(L_person_DTO.password, person.password))
+                {
+                    return Results.BadRequest("Wrong password");
+                }
+
+                return Results.Ok(person);
+            });
 
 
 
