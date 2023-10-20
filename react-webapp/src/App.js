@@ -69,6 +69,7 @@ export default function App() {
     </Routes>
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 };
 
 //function som visas när man trycker på knapp
@@ -187,3 +188,6 @@ export default function App() {
 =======
 };
 >>>>>>> c12be06 (auth added)
+=======
+};
+>>>>>>> 85835af (more fix, structure and start of AbsenceTypes)
