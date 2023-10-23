@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useAuth from '../Hooks/useAuth';
+import useAuth from "../../Hooks/useAuth";
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import { AdminNavBar } from "./AdminNavbar";
 import EmployeePage from "./EmployeePage";
@@ -36,11 +36,17 @@ export default function AdminPage() {
 
   return (
     <div>
-      <div>{auth.id}</div>
-      <div>{auth.name}</div>
+
+      <AdminNavBar>
+        <Link to="/person">Person</Link>
+        <Link to="/employees">employees</Link>
+        <Link to="/absencetype">absencetype</Link>
+        <Link to="/appliances">appliances</Link>
+      </AdminNavBar>
       <div>
         <button onClick={logout}>Sign Out</button>
       </div>
+
     </div>
     // <Router>
     //   <AdminNavBar />

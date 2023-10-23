@@ -4,8 +4,11 @@ import Login from './Components/Login';
 import { Routes, Route } from 'react-router-dom'
 import Layout from './Components/Layout';
 import RequireAuth from './Components/RequireAuth';
-import AdminPage from './Components/AdminPage'
+import AdminPage from './Components/Admin/AdminPage'
 import PersonPage from './Components/PersonPage'
+import EmployeePage from './Components/Admin/EmployeePage';
+import AbsenceTypePage from './Components/Admin/AbsenceTypePage'
+import AppliancesPage from './Components/Admin/AppliancesPage';
 
 
 export default function App() {
@@ -16,6 +19,9 @@ export default function App() {
 
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
+          <Route path="employees" element={<EmployeePage/>} />
+          <Route path="absencetype" element={<AbsenceTypePage/>} />
+          <Route path="appliances" element={<AppliancesPage/>} />
           <Route path="admin" element={<AdminPage/>} />
           <Route path="person" element={<PersonPage/>} />
         </Route>
