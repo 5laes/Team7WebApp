@@ -16,6 +16,9 @@ export default function App() {
 
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
+          <Route path="employees" element={<EmployeePage/>} />
+          <Route path="absencetype" element={<AbsenceTypePage/>} />
+          <Route path="appliances" element={<AppliancesPage/>} />
           <Route path="admin" element={<AdminPage/>} />
           <Route path="person" element={<PersonPage/>} />
         </Route>
