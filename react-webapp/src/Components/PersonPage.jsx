@@ -2,12 +2,17 @@ import React from 'react'
 import useAuth from '../Hooks/useAuth';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 
-export default function PersonPage() {
 
+
+export default function PersonPage(props) {
+
+  const [absences, setAbsences] = useState([]);
+  const [showTable, setShowTable] = useState(false);
+  const [showCreate, setShowCreate]= useState(false);
   const { auth, setAuth } = useAuth();
   const location = useLocation();
 
-  const logout = async () => {
+    const logout = async () => {
     setAuth({});
   }
 
