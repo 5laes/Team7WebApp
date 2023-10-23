@@ -179,8 +179,9 @@ namespace Team7WebApp
 
                 if (response.Result == null)
                 {
-                    response.ErrorMessages.Add("ERROR: Failed adding person to DB");
-                    return Results.BadRequest(response);
+                    response.ErrorMessages.Add($"ERROR: '{person.email}' is already registered");
+                    response.StatusCode = System.Net.HttpStatusCode.Conflict;
+                    return Results.Conflict(response);
                 }
 
                 response.Result = _mapper.Map<PersonCreateDTO>(person);
@@ -188,7 +189,7 @@ namespace Team7WebApp
                 response.StatusCode = System.Net.HttpStatusCode.OK;
 
                 return Results.Ok(response);
-            }).Accepts<PersonCreateDTO>("application/json").Produces<ApiResponse>(201).Produces(400);
+            }).Accepts<PersonCreateDTO>("application/json").Produces<ApiResponse>(201).Produces(400).Produces(409);
 
 
 
