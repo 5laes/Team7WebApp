@@ -15,6 +15,10 @@ namespace Team7WebApp.Services
 
         public async Task<Person> AddAsync(Person newPerson)
         {
+            if (_context.Persons.FirstOrDefault(p => p.email.ToLower() == newPerson.email.ToLower()) != null)
+            {
+                return null;
+            }
             var result = await _context.Persons.AddAsync(newPerson);
             await _context.SaveChangesAsync();
             return result.Entity;

@@ -31,7 +31,8 @@ export default function AdminPage() {
   // cheap "rolecheck" because of BD and backend design
   if(auth.isAdmin === false)
   {
-    return <Navigate to="/person" state={{ from: location}} replace />
+    alert("You are not an Admin, you can not visit that page!")
+    return <Navigate to="/" state={{ from: location}} replace />
   }
 
   return (

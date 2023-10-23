@@ -1,5 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Register from './Components/Register';
 import Login from './Components/Login';
 import { Routes, Route } from 'react-router-dom'
 import Layout from './Components/Layout';
@@ -9,6 +10,7 @@ import PersonPage from './Components/PersonPage'
 import EmployeePage from './Components/Admin/EmployeePage';
 import AbsenceTypePage from './Components/Admin/AbsenceTypePage'
 import AppliancesPage from './Components/Admin/AppliancesPage';
+import Default from './Components/default';
 
 
 export default function App() {
@@ -16,9 +18,11 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route path="login" element={<Login/>} />
+        <Route path="register" element={<Register/>} />
 
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
+          <Route path="/" element={<Default/>} />
           <Route path="employees" element={<EmployeePage/>} />
           <Route path="absencetype" element={<AbsenceTypePage/>} />
           <Route path="appliances" element={<AppliancesPage/>} />

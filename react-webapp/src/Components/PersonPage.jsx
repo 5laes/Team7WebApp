@@ -21,7 +21,8 @@ export default function PersonPage(props) {
   // cheap "rolecheck" because of BD and backend design
   if(auth.isAdmin === true)
   {
-    return <Navigate to="/admin" state={{ from: location}} replace />
+    alert("You are an Admin, you can not visit that page!");
+    return <Navigate to="/" state={{ from: location}} replace />
   }
 
     function getAbsences() {
