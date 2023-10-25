@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import '../App.css';
-import AbsenceCreateForm from "./AbsenceCreateForm";
-import useAuth from '../Hooks/useAuth';
-import { Link, Navigate, useLocation } from 'react-router-dom';
+import React from "react";
+import { useLocation, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import ApplyForLeave from "./ApplyForLeave";
+import MyLeaves from "./MyLeaves";
+import {Sidebar} from "./Sidebar";
+
+
 
 
 
 export default function PersonPage(props) {
 
-  const [absences, setAbsences] = useState([]);
-  const [showTable, setShowTable] = useState(false);
-  const [showCreate, setShowCreate]= useState(false);
+  //const [absences, setAbsences] = useState([]);
+  //const [showTable, setShowTable] = useState(false);
+ // const [showCreate, setShowCreate]= useState(false);
   const { auth, setAuth } = useAuth();
   const location = useLocation();
 
@@ -25,7 +30,7 @@ export default function PersonPage(props) {
     return <Navigate to="/" state={{ from: location}} replace />
   }
 
-    function getAbsences() {
+   /* function getAbsences() {
       const url = `https://localhost:7139/api/Absence/PersonID/${auth.id}`;  
       fetch(url, {
         method: "GET",
@@ -51,10 +56,23 @@ export default function PersonPage(props) {
       setShowTable(false);
       setShowCreate(true);
     }
-
+*/
     return (
-      <div className="container mt-3">
-        <button onClick={getAbsences} className="btn btn-success btn-lg">Absence-raports</button>
+      
+      <div>
+      <Sidebar>
+        <Link to="/apply-for-leave">Apply for leave</Link>
+        <Link to="/my-leaves">My Leaves</Link>
+      </Sidebar>
+      <Routes>
+        <Route path="/apply-for-leave" element={<ApplyForLeave />} />
+        <Route path="/my-leaves" element={<MyLeaves />} />
+      </Routes>
+    </div>
+  
+    )
+}
+       /* <button onClick={getAbsences} className="btn btn-success btn-lg">Absence-raports</button>
         <button onClick= {createAbsence}className="btn btn-success btn-lg mx-2">Create new</button>
         {showCreate && (
         <> 
@@ -70,7 +88,7 @@ export default function PersonPage(props) {
           <button onClick={logout}>Sign Out</button>
         </div>
       </div>
-    )
+    )*/
 
 
 
@@ -118,7 +136,7 @@ export default function PersonPage(props) {
 
 
 
-    function renderAbsencestable() {
+    /*function renderAbsencestable() {
       return (
         <div className="table-responsive mt-5">
           <table className="table table-bordered border-dark">
@@ -157,4 +175,4 @@ export default function PersonPage(props) {
       );
     } 
   }
-}
+}*/
