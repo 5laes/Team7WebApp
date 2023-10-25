@@ -6,11 +6,13 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './Components/Layout';
 import RequireAuth from './Components/RequireAuth';
 import AdminPage from './Components/Admin/AdminPage'
-import PersonPage from './Components/PersonPage'
 import EmployeePage from './Components/Admin/EmployeePage';
 import AbsenceTypePage from './Components/Admin/AbsenceTypePage'
 import AppliancesPage from './Components/Admin/AppliancesPage';
 import Default from './Components/default';
+import PersonPage from './Components/PersonPage';
+import ApplyForLeave from './Components/ApplyForLeave';
+import MyLeaves from './Components/MyLeaves';
 
 
 export default function App() {
@@ -28,6 +30,8 @@ export default function App() {
           <Route path="appliances" element={<AppliancesPage/>} />
           <Route path="admin" element={<AdminPage/>} />
           <Route path="person" element={<PersonPage/>} />
+          <Route path="applyForLeave" element ={<ApplyForLeave/>} />
+          <Route path="myLeaves" element={<MyLeaves/>}/>
         </Route>
       </Route>
     </Routes>

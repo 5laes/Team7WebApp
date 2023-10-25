@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import { NavLink, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import MyLeaves from './MyLeaves'
@@ -39,14 +39,14 @@ export const Sidebar = () => {
                   <span className='d-none d-sm-inline smaller-text'>Logout</span>
             </button>
           </div>
-          <NavLink to="/applyForLeave."exact="true">
+          <Link to="/applyForLeave"exact="true">
             <i className="bi bi-pencil-square"></i>
             Apply for leave
-          </NavLink>
-          <NavLink to="/myLeaves" exact="true"> 
+          </Link>
+          <Link to="/myLeaves" exact="true"> 
             <i className="bi bi-book"></i>
               My Leaves
-          </NavLink>
+          </Link>
         </div>
       </div>
     </div>
