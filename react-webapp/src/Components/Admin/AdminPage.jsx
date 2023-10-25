@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
-import { Link, Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { AdminNavBar } from "./AdminNavbar";
 import EmployeePage from "./EmployeePage";
 import AbsenceType from "./AbsenceTypePage";
@@ -20,24 +20,21 @@ names.filter((namNet) => {
 });
 
 export default function AdminPage() {
-
   const { auth, setAuth } = useAuth();
   const location = useLocation();
 
   const logout = async () => {
     setAuth({});
-  }
+  };
 
   // cheap "rolecheck" because of BD and backend design
-  if(auth.isAdmin === false)
-  {
-    alert("You are not an Admin, you can not visit that page!")
-    return <Navigate to="/" state={{ from: location}} replace />
+  if (auth.isAdmin === false) {
+    alert("You are not an Admin, you can not visit that page!");
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return (
     <div>
-
       <AdminNavBar>
         <Link to="/person">Person</Link>
         <Link to="/employees">employees</Link>
@@ -47,7 +44,6 @@ export default function AdminPage() {
       <div>
         <button onClick={logout}>Sign Out</button>
       </div>
-
     </div>
     // <Router>
     //   <AdminNavBar />
