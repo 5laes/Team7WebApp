@@ -11,23 +11,25 @@ import EmployeePage from './Components/Admin/EmployeePage';
 import AbsenceTypePage from './Components/Admin/AbsenceTypePage'
 import AppliancesPage from './Components/Admin/AppliancesPage';
 import Default from './Components/default';
+import AbsenceCreateForm from './Components/AbsenceCreateForm';
 
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="login" element={<Login/>} />
-        <Route path="register" element={<Register/>} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
-          <Route path="/" element={<Default/>} />
-          <Route path="employees" element={<EmployeePage/>} />
-          <Route path="absencetype" element={<AbsenceTypePage/>} />
-          <Route path="appliances" element={<AppliancesPage/>} />
-          <Route path="admin" element={<AdminPage/>} />
-          <Route path="person" element={<PersonPage/>} />
+          <Route path="/" element={<Default />} />
+          <Route path="employees" element={<EmployeePage />} />
+          <Route path="AbsenceCreate" element={<AbsenceCreateForm />} />
+          <Route path="absencetype" element={<AbsenceTypePage />} />
+          <Route path="appliances" element={<AppliancesPage />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="person" element={<PersonPage />} />
         </Route>
       </Route>
     </Routes>
