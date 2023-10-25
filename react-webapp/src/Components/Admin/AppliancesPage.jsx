@@ -5,7 +5,6 @@ export default function Appliances() {
   const [appliances, setAppliances] = useState([]);
   const [persons, setPersons] = useState([]);
   const [types, setTypes] = useState([]);
-  const [showTable, setShowTable] = useState(false);
   const [currentUpdate, setCurrentUpdate] = useState(null);
   const [filter, setFilter] = useState("all");
 
@@ -25,7 +24,6 @@ export default function Appliances() {
       .then((absencefromServer) => {
         console.log(absencefromServer);
         setAppliances(absencefromServer.result);
-        //setShowTable(true);
       })
       .catch((error) => {
         console.log(error);
@@ -39,7 +37,6 @@ export default function Appliances() {
       .then((persfromServer) => {
         console.log(persfromServer);
         setPersons(persfromServer.result);
-        //setShowTable(true);
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +50,22 @@ export default function Appliances() {
       .then((typefromServer) => {
         console.log(typefromServer);
         setTypes(typefromServer.result);
-        //setShowTable(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+      });
+  }
+  function deleteAppliance(id) {
+    const url = `https://localhost:7139/api/Absence/${id}`;
+
+    fetch(url, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((responseFromServer) => {
+        console.log(responseFromServer);
+        onApplianceDeleted(id);
       })
       .catch((error) => {
         console.log(error);
@@ -82,40 +94,49 @@ export default function Appliances() {
       );
     }
   }
-  // function handleBackclick() {
-  //   setShowTable(false);
-  // }
+  function countAppliancesByFilter(filterName) {
+    if (filterName === "all") {
+      return appliances.length;
+    }
+    if (filterName === "pending") {
+      return appliances.filter((appliance) => appliance.pending).length;
+    }
+    if (filterName === "approved") {
+      return appliances.filter((appliance) => appliance.approved).length;
+    }
+    if (filterName === "notApproved") {
+      return appliances.filter(
+        (appliance) => !appliance.approved && !appliance.pending
+      ).length;
+    }
+  }
   return (
     <div className="container">
       {currentUpdate === null && (
         <div>
-          {/* <button onClick={getAppliances} className="btn btn-light btn-lg">
-        All Appliances
-      </button> */}
-
           <button
             onClick={() => setFilter("all")}
             className="btn btn-light btn-lg"
           >
-            All
+            All ({countAppliancesByFilter("all")})
           </button>
           <button
             onClick={() => setFilter("pending")}
             className="btn btn-light btn-lg"
           >
-            Pending
+            Pending ({countAppliancesByFilter("pending")})
           </button>
           <button
             onClick={() => setFilter("approved")}
             className="btn btn-light btn-lg"
           >
-            Approved
+            Approved ({countAppliancesByFilter("approved")})
           </button>
           <button
             onClick={() => setFilter("notApproved")}
             className="btn btn-light btn-lg"
           >
-            Denied
+            Denied ({countAppliancesByFilter("notApproved")})
           </button>
         </div>
       )}
@@ -188,6 +209,19 @@ export default function Appliances() {
                   >
                     Handle appliance
                   </button>
+                  <button
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          `Are you sure you want to delete this appliance?`
+                        )
+                      )
+                        deleteAppliance(appliance.id);
+                    }}
+                    className="btn btn-dark btn-lg"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -216,6 +250,29 @@ export default function Appliances() {
     setAppliances(appsCopy);
 
     alert(`Appliance  is updated.`);
-    //setShowTable(false);
+
+    {
+      getAppliances();
+    }
+  }
+  function onApplianceDeleted(deletedAppl) {
+    let appsCopy = [...appliances];
+
+    const index = appsCopy.findIndex((appsCopyapp) => {
+      if (appsCopyapp.id === deletedAppl.id) {
+        return true;
+      }
+    });
+
+    if (index !== -1) {
+      appsCopy.splice(index, 1);
+    }
+
+    setAppliances(appsCopy);
+
+    alert("Appliance deleted");
+    {
+      getAppliances();
+    }
   }
 }

@@ -7,13 +7,7 @@ export default function UpdateAppliance(props) {
         approved: props.appliance.approved,
     });
     const [formData, setFormData] = useState(initialFormData);
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -43,10 +37,6 @@ export default function UpdateAppliance(props) {
     return (
         <form className="w-100 px-5">
             <h1 className="mt-5">Approve/Deny appliance</h1>
-            {/* <div className="mt-5">
-                <label className="h3 form-label">Name</label>
-                <input value={formData.name} name="name" type="text" className="form-control" onChange={handleChange} />
-            </div> */}
             <div className="mt-5">
                 <label className="h3 form-label">Pending</label>
                 <input
