@@ -5,7 +5,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 export default function AbsenceCreateForm() {
     const [formData, setFormData] = useState({
         typeID: "",
-        days: "",
+        leaveEnd: "",
         leaveStart: "",
     });
 
@@ -23,31 +23,32 @@ export default function AbsenceCreateForm() {
         const personID = auth.id;
 
         if (formData.typeID === "" ||
-            formData.days === "" ||
+            formData.leaveEnd === "" ||
             formData.leaveStart === "") {
             alert('You must enter all fields.')
             e.preventDefault();
             return;
         }
+        var today = new Date();
+        var leaveStart = new Date(formData.leaveStart);
+        var leaveEnd = new Date(formData.leaveEnd);
+
+        if (leaveStart < today || leaveEnd < today) {
+            alert('You must enter dates past this day. Please choose a valid date.');
+            e.preventDefault();
+            return;
+        }
+        if (leaveEnd < leaveStart) {
+            alert('You erroneously entered a leave-date before a start-date.');
+            e.preventDefault();
+            return;
+        }
 
         const absenceToCreate = {
-            id: 0,
             typeID: formData.typeID,
-            days: formData.days,
-            dayRequested: Date.now(),
             personID: personID,
-            pending: true,
-            approved: false,
             leaveStart: formData.leaveStart,
-            leaveEnd: (function () {
-                const newLeaveEnd = new Date(formData.leaveStart);
-                const days = parseInt(formData.days, 10); // Konvertera till ett heltal med bas 10
-
-                if (!isNaN(days)) {
-                    newLeaveEnd.setDate(newLeaveEnd.getDate() + days);
-                }
-                return newLeaveEnd;
-            })(),
+            leaveEnd: formData.leaveEnd,
         };
 
         const urlToCreate = `https://localhost:7139/api/Absence`;
@@ -104,22 +105,23 @@ export default function AbsenceCreateForm() {
                         />
                     </div>
                 </div>
-                <div className="mt-2">
-                    <label className="h3 form-label">Amount of days requested</label>
-                    <input
-                        value={formData.days}
-                        name="days"
-                        type="number"
-                        className="form-control"
-                        onChange={handleChange}
-                    />
-                </div>
+
 
                 <div className="mt-2">
                     <label className="h3 form-label">Start of leave-date</label>
                     <input
                         value={formData.leaveStart}
                         name="leaveStart"
+                        type="date"
+                        className="form-control"
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="mt-2">
+                    <label className="h3 form-label">End of leave-date</label>
+                    <input
+                        value={formData.leaveEnd}
+                        name="leaveEnd"
                         type="date"
                         className="form-control"
                         onChange={handleChange}

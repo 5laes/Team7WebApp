@@ -85,9 +85,9 @@ export default function PersonPage(props) {
                 <th scope="col">Approved</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {absences.result.map((absence) => (
-                <tr key={absence.id}>
+                <tr key={absence.id} >
                   <td>{absence.id}</td>
                   <td>{absence.typeID === 1 ? 'Vacation'
                   : absence.typeID === 2 ? 'VABB'
