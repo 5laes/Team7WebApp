@@ -47,7 +47,7 @@ export default function PersonPage(props) {
       setShowTable(false);
     }
 
-    { function createAbsence(){
+    function createAbsence(){
       setShowTable(false);
       setShowCreate(true);
     }
@@ -56,70 +56,21 @@ export default function PersonPage(props) {
       <div className="container mt-3">
         <button onClick={getAbsences} className="btn btn-success btn-lg">Absence-raports</button>
         <button onClick= {createAbsence}className="btn btn-success btn-lg mx-2">Create new</button>
-        {showCreate && (
-        <> 
-          <AbsenceCreateForm/>
-          <button onClick={() => setShowCreate(false)} className="btn btn-dark btn-lg mt-2 w-100 mx-2">Back</button>
-        </>
-        )}
-        {showTable && renderAbsencestable()}
-        {showTable && (
-          <button onClick={handleBackclick} className="btn btn-dark btn-lg">Back</button>
-        )}
+        <button className="btn btn-warning btn-lg  my-2 " onClick={logout}>Sign Out</button>
+        {showCreate && (<><AbsenceCreateForm/> <button onClick={() => setShowCreate(false)} className="btn btn-dark btn-lg w-100 my-2">
+          Back</button></>)}
+
         <div>
-          <button onClick={logout}>Sign Out</button>
+        {showTable && renderAbsencestable()}
+        {showTable && (<button onClick={handleBackclick} className="btn btn-dark w-100 btn-lg my-2">Back</button>)}
         </div>
       </div>
     )
 
-
-
-// import React from 'react'
-// import useAuth from '../Hooks/useAuth';
-// import { Link, Navigate, useLocation } from 'react-router-dom';
-
-// export default function PersonPage() {
-
-//   const { auth, setAuth } = useAuth();
-//   const location = useLocation();
-
-//   const logout = async () => {
-//     setAuth({});
-//   }
-
-//   // cheap "rolecheck" because of BD and backend design
-//   if(auth.isAdmin === true)
-//   {
-//     return <Navigate to="/admin" state={{ from: location}} replace />
-//   }
-
-//   return (
-//     <div>
-//       <p>person</p>
-//       <p>person</p>
-//       <p>person</p>
-//       <div>
-//         {auth.id}
-//       </div>
-//       <div>
-//         {auth.name}
-//       </div>
-//       <div>
-//         <button onClick={logout}>Sign Out</button>
-//       </div>
-//       </div>
-//     );
-
-
-
-
-
-
-
-
-
+  
     function renderAbsencestable() {
       return (
+        <>
         <div className="table-responsive mt-5">
           <table className="table table-bordered border-dark">
             <thead>
@@ -141,10 +92,10 @@ export default function PersonPage(props) {
                   <td>{absence.typeID === 1 ? 'Vacation'
                   : absence.typeID === 2 ? 'VABB'
                   : absence.typeID === 3 ? 'Sick': 'Unknown Type'}</td>
-                  <td>{absence.days}</td>
-                  <td>{new Date(absence.dayRequested).toLocaleDateString('sv-SE')}</td>
-                  <td>{new Date(absence.leaveStart).toLocaleDateString('sv-SE')}</td>
-                  <td>{new Date(absence.leaveEnd).toLocaleDateString('sv-SE')}</td>
+                  <td  >{absence.days}</td>
+                  <td style={{ backgroundColor: new Date(absence.dayRequested) < (new Date().setDate(new Date().getDate() - 1)) ? 'lightblue' : 'inherit' }}>{new Date(absence.dayRequested).toLocaleDateString('sv-SE')}</td>
+                  <td style={{ backgroundColor: new Date(absence.leaveStart) < (new Date().setDate(new Date().getDate() - 1)) ? 'lightblue' : 'inherit' }}>{new Date(absence.leaveStart).toLocaleDateString('sv-SE')}</td>
+                  <td style={{ backgroundColor: new Date(absence.leaveEnd) < (new Date().setDate(new Date().getDate() - 1)) ? 'lightblue' : 'inherit' }}>{new Date(absence.leaveEnd).toLocaleDateString('sv-SE')}</td>
                   <td style={{ background: absence.pending ? 'pink' : 'lightgreen' }}>
                   {absence.pending ? '[Awaiting]' : '[Confirmed]'}</td>
                   <td style={{ background: absence.approved ? 'lightgreen' : 'red' }}>
@@ -154,7 +105,8 @@ export default function PersonPage(props) {
             </tbody>
           </table>
         </div>
+              </>
       );
     } 
   }
-}
+

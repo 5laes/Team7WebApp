@@ -1,48 +1,63 @@
 import React, { useState } from "react";
-
-
+import useAuth from '../Hooks/useAuth';
+import { useLocation, Navigate } from 'react-router-dom';
 
 export default function AbsenceCreateForm() {
+    const [formData, setFormData] = useState({
+        typeID: "",
+        days: "",
+        leaveStart: "",
+    });
 
-    const [formData, setFormData] = useState("");
+    const { auth } = useAuth();
+    const location = useLocation();
 
     const handleChange = (e) => {
-        //e => eventObject
         setFormData({
-            //to the value the user entered
             ...formData,
-            [e.target.name]: e.target.value, //name is the name for the properties below! ex name ="title"
-            //the element will be set to the value entered
+            [e.target.name]: e.target.value,
         });
     };
+
     const handleSubmit = (e) => {
-        e.preventDefault(); //will prevent default actions happening
-        //handling form submission here
+        const personID = auth.id;
+
+        if (formData.typeID === "" ||
+            formData.days === "" ||
+            formData.leaveStart === "") {
+            alert('You must enter all fields.')
+            e.preventDefault();
+            return;
+        }
+
         const absenceToCreate = {
             id: 0,
             typeID: formData.typeID,
             days: formData.days,
-            dayRequested: Date.now,
-            personID: formData.personID, ///den som sökers id!
+            dayRequested: Date.now(),
+            personID: personID,
             pending: true,
             approved: false,
             leaveStart: formData.leaveStart,
             leaveEnd: (function () {
                 const newLeaveEnd = new Date(formData.leaveStart);
-                const days = formData.days;
-                newLeaveEnd.setDate(newLeaveEnd.getDate() - days);
+                const days = parseInt(formData.days, 10); // Konvertera till ett heltal med bas 10
+
+                if (!isNaN(days)) {
+                    newLeaveEnd.setDate(newLeaveEnd.getDate() + days);
+                }
                 return newLeaveEnd;
-            })(), //IIFE
+            })(),
         };
 
         const urlToCreate = `https://localhost:7139/api/Absence`;
 
         fetch(urlToCreate, {
-            method: "POST", //http post request till server
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(absenceToCreate), //converts to json
+            body: JSON.stringify(absenceToCreate),
         })
             .then((response) => response.json())
             .then((responseFromServer) => {
@@ -51,40 +66,46 @@ export default function AbsenceCreateForm() {
             .catch((error) => {
                 console.log(error);
                 alert(error);
-            });
-        // props.onBookCreated(bookToCreate);
+            })
+
+
+        // return <Navigate to="/person" />
     };
 
-
     return (
-        <div className="table-responsive ">
+        <div className="table-responsive">
             <form className="w-100 px-5">
-
-                <div className="mt-3">
-                    <label className="h3 form-label">Type of absence	</label>
+                <div className="mt-2">
+                    <label className="h3 form-label">Type of absence</label>
                     <div>
-                        <label>Vacation</label><input
-                            type="radio" name="typeID"
+                        <label>Vacation</label>
+                        <input
+                            type="radio"
+                            name="typeID"
                             value="1"
-                            checked={formData.typeID}
+                            checked={formData.typeID === "1"}
                             onChange={handleChange}
                         /><br />
-                        <label>Vabb</label> <input
-                            type="radio" name="typeID"
+                        <label>Vabb</label>
+                        <input
+                            type="radio"
+                            name="typeID"
                             value="2"
-                            checked={formData.typeID}
+                            checked={formData.typeID === "2"}
                             onChange={handleChange}
                         /><br />
-                        <label>Sick</label> <input
-                            type="radio" name="typeID"
+                        <label>Sick</label>
+                        <input
+                            type="radio"
+                            name="typeID"
                             value="3"
-                            checked={formData.typeID}
+                            checked={formData.typeID === "3"}
                             onChange={handleChange}
                         />
                     </div>
                 </div>
-                <div className="mt-3">
-                    <label className="h3 form-label">Amount of days requested	</label>
+                <div className="mt-2">
+                    <label className="h3 form-label">Amount of days requested</label>
                     <input
                         value={formData.days}
                         name="days"
@@ -94,8 +115,8 @@ export default function AbsenceCreateForm() {
                     />
                 </div>
 
-                <div className="mt-3">
-                    <label className="h3 form-label">Start of leave-date	</label>
+                <div className="mt-2">
+                    <label className="h3 form-label">Start of leave-date</label>
                     <input
                         value={formData.leaveStart}
                         name="leaveStart"
@@ -104,14 +125,11 @@ export default function AbsenceCreateForm() {
                         onChange={handleChange}
                     />
                 </div>
-                {/* {showCreate && (<> */}
 
-                <button onClick={handleSubmit} className="btn btn-primary btn-lg w-100  mt-2">
+                <button onClick={handleSubmit} className="btn btn-success btn-lg  mt-2">
                     Add
                 </button>
-                {/* </> */}
-                {/* )} */}
             </form>
         </div>
-    )
+    );
 }
