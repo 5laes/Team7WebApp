@@ -73,7 +73,7 @@ export default function UpdateEmployee(props) {
                     className="form-checkbox"
                     onChange={(e) => {
                         setFormData({
-                            ...formData, available: e.target.checked,
+                            ...formData, isAdmin: e.target.checked,
                         });
                     }}
                 />
