@@ -13,17 +13,19 @@ import Default from './Components/default';
 import PersonPage from './Components/PersonPage';
 import ApplyForLeave from './Components/ApplyForLeave';
 import MyLeaves from './Components/MyLeaves';
+import AbsenceCreateForm from './Components/AbsenceCreateForm';
 
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="login" element={<Login/>} />
-        <Route path="register" element={<Register/>} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
+
           <Route path="/" element={<Default/>} />
           <Route path="employees" element={<EmployeePage/>} />
           <Route path="absencetype" element={<AbsenceTypePage/>} />
