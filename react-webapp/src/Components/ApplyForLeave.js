@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Constants from '../Utilities/Constants';
+import useAuth from "../Hooks/useAuth";
 
 export default function ApplyForLeave(props) {
   const [absenceTypes, setAbsenceTypes] = useState({ isSuccess: false, result: [] });
   const [selectedAbsenceType, setSelectedAbsenceType] = useState('');
   const [leaveStart, setLeaveStart] = useState('');
   const [leaveEnd, setLeaveEnd] = useState('');
+  const { auth } = useAuth();
   const [formData, setFormData] = useState({
     "typeID": 1, // Initialize typeID as an empty string
     "personID": 0,
@@ -49,7 +51,7 @@ export default function ApplyForLeave(props) {
     const absenceToAdd = {
       "id": 0,
       "typeID": selectedAbsenceType.id,
-      "personID": 0, // You should set a valid person ID
+      "personID": auth.id, // fixed person id
       "leaveStart": formData.leaveStart,
       "leaveEnd": formData.leaveEnd,
     };
