@@ -317,7 +317,7 @@ namespace Team7WebApp
 
                 Absence absence = _mapper.Map<Absence>(C_Absense_DTO);
                 absence.dayRequested = DateTime.Now;
-                absence.days = (int)(absence.leaveEnd - absence.leaveStart).TotalDays; // counts weekend days as well (NOT GOOD)
+                absence.days = 1 + (int)(absence.leaveEnd - absence.leaveStart).TotalDays; // counts weekend days as well (NOT GOOD)
                 absence.pending = true;
                 absence.approved = false;
 

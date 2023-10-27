@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { Nav } from "react-bootstrap";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import MyLeaves from './MyLeaves'
-import ApplyForLeave from './ApplyForLeave'
-
 
 
 
 export const Sidebar = () => {
-  const [sidebar, setSidebar] = useState(false);
+
   const { auth, setAuth } = useAuth();
   const location = useLocation();
 
@@ -18,14 +14,11 @@ export const Sidebar = () => {
     setAuth({});
   }
 
-  const onSetSidebar = (open) => {
-    setSidebar(open);
-  };
    // cheap "rolecheck" because of BD and backend design
-   if(auth.isAdmin === true)
-   {
-     return <Navigate to="/admin" state={{ from: location}} replace />
-   }
+  if(auth.isAdmin === true)
+  {
+    return <Navigate to="/admin" state={{ from: location}} replace />
+  }
 
   return (
     <div className="container-fluid">
