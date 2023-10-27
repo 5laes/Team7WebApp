@@ -1,10 +1,14 @@
 import React from "react";
+import {Sidebar} from "./Sidebar";
 
 export default function MyLeaves() {
+
     return(
-        <div className="text-red">
-            <h3>My leaves</h3>
+       <div>
+        <div >
+          <Sidebar />
         </div>
+       </div>
         
     )
 }

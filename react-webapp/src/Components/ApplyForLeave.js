@@ -12,7 +12,7 @@ export default function ApplyForLeave(props) {
   const [daysRequested, setDaysRequested] = useState(0);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    "typeID": 1, // Initialize typeID as an empty string
+    "typeID":1,
     "personID": 0,
     "leaveStart": '',
     "leaveEnd": '',
@@ -152,7 +152,7 @@ export default function ApplyForLeave(props) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-auto col-sm-2 bg-dark d-flex flex-column justify-content-between min-vh-100">
+        <div >
           <Sidebar />
         </div>
         <div className="col d-flex flex-column align-items-center justify-content-center min-vh-100">
