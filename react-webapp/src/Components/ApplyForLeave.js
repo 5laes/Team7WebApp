@@ -3,13 +3,14 @@ import { Sidebar } from "./Sidebar";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Constants from '../Utilities/Constants';
 import useAuth from "../Hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function ApplyForLeave(props) {
   const [absenceTypes, setAbsenceTypes] = useState({ isSuccess: false, result: [] });
-  const [selectedAbsenceType, setSelectedAbsenceType] = useState('');
-  const [leaveStart, setLeaveStart] = useState('');
-  const [leaveEnd, setLeaveEnd] = useState('');
+  const [personAbsences, setPersonAbsences] = useState({ isSuccess: false, result: [] });
   const { auth } = useAuth();
+  const [daysRequested, setDaysRequested] = useState(0);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     "typeID":1,
     "personID": 0,
@@ -30,6 +31,48 @@ export default function ApplyForLeave(props) {
     });
   }, []);
 
+  useEffect(() => {
+
+    const url = `${Constants.API_URL_GET_ABSENCE_PERSONID}/${auth.id}`
+
+    fetch(url)
+    .then((response) => response.json())
+    .then((personAbsences) => {
+      console.log(personAbsences);
+      setPersonAbsences(personAbsences);
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error);
+    });
+  }, [auth.id]);
+
+  useEffect(() => {
+    absenceTypes.result.map((absenceType) => (
+      personAbsences.result.map((personAbsence) => {
+        if(absenceType.id === personAbsence.typeID){
+          absenceType.days -= personAbsence.days
+          setAbsenceTypes(absenceTypes);
+        }
+      })
+    ))
+  }, [absenceTypes, personAbsences])
+
+  useEffect(() => {
+    const startDate = new Date(formData.leaveStart);
+    const endDate = new Date(formData.leaveEnd);
+
+    const diffInTime = endDate.getTime() - startDate.getTime();
+
+    const diffInDays = diffInTime / (1000 * 3600 * 24)
+
+    setDaysRequested(diffInDays + 1)
+  }, [formData.leaveStart, formData.leaveEnd])
+
+  function isDateBeforeToday(date) {
+    return new Date(date.toDateString()) < new Date(new Date().toDateString());
+  }
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -47,6 +90,27 @@ export default function ApplyForLeave(props) {
     return;
   }
 
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  today = mm + '-' + dd + '-' + yyyy;
+
+  if(isDateBeforeToday(new Date(formData.leaveStart))){
+
+    alert(`You can't select a start date (${formData.leaveStart}) older than current date (${today})`);
+    return;
+  }
+
+  if(isDateBeforeToday(new Date(formData.leaveEnd))){
+    alert(`You can't select a end date (${formData.leaveStart}) older than current date (${today})`);
+    return;
+  }
+
+  if(daysRequested > selectedAbsenceType.days){
+    alert(`ERROR: To many days requested (${daysRequested}). You can only request ${selectedAbsenceType.days} days for ${selectedAbsenceType.typeName}`);
+    return;
+  }
 
     const absenceToAdd = {
       "id": 0,
@@ -67,6 +131,10 @@ export default function ApplyForLeave(props) {
       .then((response) => response.json())
       .then((absenceFromServer) => {
         console.log(absenceFromServer);
+        if(absenceFromServer.isSuccess){
+          alert("Successfully sent request");
+          navigate("/person", { replace: true });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -80,6 +148,7 @@ export default function ApplyForLeave(props) {
       [e.target.name]: e.target.value,
     });
   };
+  
   return (
     <div className="container-fluid">
       <div className="row">
@@ -96,16 +165,16 @@ export default function ApplyForLeave(props) {
                     <label>
                       Leave Type:
                       <select
-                       value={formData.typeID}
-                       className="form-control"
-                       onChange={(e) => {
-                         const selectedType = parseInt(e.target.value);
-                         setFormData({ ...formData, typeID: selectedType });
-                       }}
+                        value={formData.typeID}
+                        className="form-control"
+                        onChange={(e) => {
+                          const selectedType = parseInt(e.target.value);
+                          setFormData({ ...formData, typeID: selectedType });
+                        }}
                       >
                         {absenceTypes.result.map((absenceTypes) => (
                           <option key={absenceTypes.id} value={absenceTypes.id}>
-                            {absenceTypes.typeName}
+                            {absenceTypes.typeName}, {" Max: "} {absenceTypes.days} {" Days"}
                           </option>
                         ))}
                       </select>
@@ -119,6 +188,10 @@ export default function ApplyForLeave(props) {
             <div className="mt-5">
                 <label className="h3 form-label">Leave End day:</label>
                 <input value={formData.leaveEnd} name="leaveEnd" type="date"  onChange={handleChange}></input>
+            </div>
+
+            <div className="mt-5">
+              Days requested: {daysRequested}
             </div>
 
             <button onClick={handleFormSubmit} className="btn btn-dark btn-lg mt-5">Apply!</button>

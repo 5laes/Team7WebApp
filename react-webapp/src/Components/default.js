@@ -10,16 +10,18 @@ const Default = () => {
     }
 
     return (
-        <section>
-            <h1>Hello {auth.name}, Welcome to Team7 Web App</h1>
-            <br/>
-            <Link to="/admin">Admin Portal</Link>
-            <br/>
-            <Link to="/person">Person Portal</Link>
-            <div>
-                <button onClick={logout}>Sign Out</button>
-            </div>
-        </section>
+        <div className="login">
+            <section>
+                <h1>Hello {auth.name}, Welcome to Team7 Web App</h1>
+                <br/>
+                <Link to="/admin">Admin Portal</Link>
+                <br/>
+                <Link to="/person">Person Portal</Link>
+                <div>
+                    <button onClick={logout}>Sign Out</button>
+                </div>
+            </section>
+        </div>
     )
 }
 
