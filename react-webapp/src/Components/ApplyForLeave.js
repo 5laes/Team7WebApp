@@ -152,7 +152,7 @@ export default function ApplyForLeave(props) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div >
+        <div className="col d-flex flex-column align-items-center justify-content-center min-vh-100">
           <Sidebar />
         </div>
         <div className="col d-flex flex-column align-items-center justify-content-center min-vh-100">
