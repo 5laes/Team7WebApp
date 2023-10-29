@@ -39,7 +39,7 @@ export default function AdminPage() {
         <Link to="/person">Person</Link>
         <Link to="/employees">employees</Link>
         <Link to="/absencetype">absencetype</Link>
-        <Link to="/appliances">appliances</Link>
+        <Link to="/appliances">appliances</Link>               
       </AdminNavBar>
       <div>
         <button onClick={logout}>Sign Out</button>

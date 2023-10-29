@@ -12,10 +12,10 @@ export const AdminNavBar = () => {
                     <Nav className="ms-auto">
                         <Nav.Link as={NavLink} exact to='/employees'>Employees</Nav.Link>
                         <Nav.Link as={NavLink} exact to='/absencetype'>Absences</Nav.Link>
-                        <Nav.Link as={NavLink} exact to='/appliances'>Appliances</Nav.Link>
+                        <Nav.Link as={NavLink} exact to='/appliances'>Appliances</Nav.Link>                       
                     </Nav>
                 </Navbar.Collapse>
-            </Container>
+            </Container>            
         </Navbar>
 
     )

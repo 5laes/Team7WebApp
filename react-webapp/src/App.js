@@ -14,6 +14,7 @@ import PersonPage from './Components/PersonPage';
 import ApplyForLeave from './Components/ApplyForLeave';
 import MyLeaves from './Components/MyLeaves';
 import AbsenceCreateForm from './Components/AbsenceCreateForm';
+import AbsenceReports from './Components/Admin/AbsenceReports';
 
 
 export default function App() {
@@ -26,14 +27,16 @@ export default function App() {
         {/*Cant fix rolebased auth because of how DB and backend is built*/}
         <Route element={<RequireAuth />}>
 
-          <Route path="/" element={<Default/>} />
-          <Route path="employees" element={<EmployeePage/>} />
-          <Route path="absencetype" element={<AbsenceTypePage/>} />
-          <Route path="appliances" element={<AppliancesPage/>} />
-          <Route path="admin" element={<AdminPage/>} />
-          <Route path="person" element={<PersonPage/>} />
-          <Route path="applyForLeave" element ={<ApplyForLeave/>} />
-          <Route path="myLeaves" element={<MyLeaves/>}/>
+          <Route path="/" element={<Default />} />
+          <Route path="employees" element={<EmployeePage />} />
+          <Route path="absencetype" element={<AbsenceTypePage />} />
+          <Route path="appliances" element={<AppliancesPage />} />
+          <Route path="absencereports" element={<AbsenceReports />} />
+
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="person" element={<PersonPage />} />
+          <Route path="applyForLeave" element={<ApplyForLeave />} />
+          <Route path="myLeaves" element={<MyLeaves />} />
         </Route>
       </Route>
     </Routes>
