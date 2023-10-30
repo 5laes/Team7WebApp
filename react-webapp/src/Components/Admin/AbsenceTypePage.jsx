@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import AddAbsenceType from "./AddAbsenceType";
 import UpdateAbsenceType from "./UpdateAbsenceType";
+import { Link } from "react-router-dom";
 
 export default function AbsenceType() {
   const [types, setTypes] = useState([]);
   const [showTable, setShowTable] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [currentUpdate, setCurrentUpdate] = useState(null);
+
   function getTypes() {
     const url = "https://localhost:7139/api/AbsenceType";
 
@@ -43,6 +45,13 @@ export default function AbsenceType() {
         alert(error);
       });
   }
+  function ButtonToTable() {
+    return (
+      <Link to="/absencereports">
+        <button className="btn btn-light btn-lg">Reports</button>
+      </Link>
+    );
+  }
   return (
     <div className="container">
       {showAddForm === false && currentUpdate === null && (
@@ -56,6 +65,7 @@ export default function AbsenceType() {
           >
             Add new Type of Absence
           </button>
+          {ButtonToTable()}
         </div>
       )}
       {showTable &&
