@@ -6,16 +6,20 @@ export default function Appliances() {
   const [persons, setPersons] = useState([]);
   const [types, setTypes] = useState([]);
   const [currentUpdate, setCurrentUpdate] = useState(null);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("all"); 
 
   useEffect(() => {
-    getAppliances();
+    getAppliances();    
   }, []);
 
   function getAppliances() {
     const url = "https://localhost:7139/api/Absence";
     const url2 = "https://localhost:7139/api/Person";
     const url3 = "https://localhost:7139/api/AbsenceType";
+
+    // const url = "https://team777.azurewebsites.net/api/Absence";
+    // const url2 = "https://team777.azurewebsites.net/api/Person";
+    // const url3 = "https://team777.azurewebsites.net/api/AbsenceType";
 
     fetch(url, {
       method: "GET",
@@ -77,6 +81,18 @@ export default function Appliances() {
   }
   function findTypeById(typeID) {
     return types.find((type) => type.id === typeID);
+  }
+
+  function calculateRemainingLeaveDays(personID, typeID) {
+    const personAppliances = appliances.filter((appliance) => appliance.personID === personID && appliance.typeID === typeID);
+    const personType = types.find((type) => type.id === typeID);
+  
+    if (personType) {
+      const totalLeaveDaysRequested = personAppliances.reduce((total, appliance) => total + appliance.days, 0);
+      const remainingDays = personType.days - totalLeaveDaysRequested;
+      return remainingDays >= 0 ? remainingDays : 0; // Ensure it's not negative
+    }
+    return null;
   }
   function formatDate(date) {
     return new Date(date).toLocaleString();
@@ -162,6 +178,7 @@ export default function Appliances() {
               <th scope="col">Day of Request</th>
               <th scope="col">Pending</th>
               <th scope="col">Days</th>
+              <th scope="col">Days left to apply for</th>
               <th scope="col">Leave start</th>
               <th scope="col">Leave end</th>
               <th scope="col">Approved</th>
@@ -192,6 +209,9 @@ export default function Appliances() {
                   />
                 </td>
                 <td>{appliance.days}</td>
+
+                <td>{calculateRemainingLeaveDays(appliance.personID, appliance.typeID)}</td>
+
                 <td>{formatDate(appliance.leaveStart)}</td>
                 <td>{formatDate(appliance.leaveEnd)}</td>
                 <td>
