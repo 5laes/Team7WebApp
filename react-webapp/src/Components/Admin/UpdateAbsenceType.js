@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function UpdateAbsenceType(props) {
     const initialFormData = Object.freeze({
@@ -23,7 +24,7 @@ export default function UpdateAbsenceType(props) {
             days: formData.days,
 
         };
-        const url = "https://localhost:7139/api/AbsenceType";
+        const url = Constants.API_URL_UPDATE_ABSENCETYPE;
         fetch(url, {
             method: 'PUT',
             headers: {

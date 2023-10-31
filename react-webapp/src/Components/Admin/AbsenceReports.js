@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function AbsenceReports() {
 
@@ -11,8 +12,8 @@ export default function AbsenceReports() {
 
   function getDays() {
 
-    const url = "https://localhost:7139/api/AbsenceType";
-    const url2 = "https://localhost:7139/api/Absence";
+    const url = Constants.API_URL_GET_ABSENCETYPE_ALL;
+    const url2 = Constants.API_URL_GET_ABSENCE_ALL;
 
     fetch(url, {
       method: "GET",

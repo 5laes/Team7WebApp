@@ -3,11 +3,12 @@ import { faCheck, faTimes, faInfoCircle, } from "@fortawesome/free-solid-svg-ico
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
+import Constants from "../Utilities/Constants";
 
 const NAME_REGEX = /^[a-ÖA-Ö]{1,50}$/
 const EMAIL_REGEX = /^[a-öA-Ö0-9._-]+@[a-öA-Ö0-9.-]+\.[a-öA-Ö]{2,6}$/;
 const PASSWORD_REGEX = /^(?=.*[a-ö])(?=.*[A-Ö])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const url = 'https://localhost:7139/api/Person';
+const url = Constants.API_URL_ADD_PERSON;
 
 const Register = () => {
     const userRef = useRef();

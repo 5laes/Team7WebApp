@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AddAbsenceType from "./AddAbsenceType";
 import UpdateAbsenceType from "./UpdateAbsenceType";
 import { Link } from "react-router-dom";
+import Constants from "../../Utilities/Constants";
 
 export default function AbsenceType() {
   const [types, setTypes] = useState([]);
@@ -10,7 +11,7 @@ export default function AbsenceType() {
   const [currentUpdate, setCurrentUpdate] = useState(null);
 
   function getTypes() {
-    const url = "https://localhost:7139/api/AbsenceType";
+    const url = Constants.API_URL_GET_ABSENCETYPE_ALL;
 
     fetch(url, {
       method: "GET",
@@ -30,7 +31,7 @@ export default function AbsenceType() {
     setShowTable(false);
   }
   function deleteType(id) {
-    const url = `https://localhost:7139/api/AbsenceType/${id}`;
+    const url = `${Constants.API_URL_GET_ABSENCETYPE_ID}/${id}`;
 
     fetch(url, {
       method: "DELETE",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AddEmployee from "./AddEmployee";
 import UpdateEmployee from "./UpdateEmployee";
+import Constants from "../../Utilities/Constants";
 
 export default function EmployeePage() {
   const [persons, setPersons] = useState([]);
@@ -9,7 +10,7 @@ export default function EmployeePage() {
   const [currentUpdate, setCurrentUpdate] = useState(null);
 
   function getPersons() {
-    const url = "https://localhost:7139/api/Person";
+    const url = Constants.API_URL_GET_PERSON_ALL;
 
     fetch(url, {
       method: "GET",
@@ -29,7 +30,7 @@ export default function EmployeePage() {
     setShowTable(false);
   }
   function deleteEmployee(id) {
-    const url = `https://localhost:7139/api/Person/${id}`;
+    const url = `${Constants.API_URL_DELETE_PERSON}/${id}`;
 
     fetch(url, {
       method: "DELETE",

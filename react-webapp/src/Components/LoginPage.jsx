@@ -1,7 +1,6 @@
 import React , {useState} from 'react'
 import Constants from '../Utilities/Constants';
 import PersonPage from './PersonPage';
-//import PersonFunctions, { GetPersonByEmail } from '../Utilities/PersonFunctions'
 
 
 export const LoginPage = () => {

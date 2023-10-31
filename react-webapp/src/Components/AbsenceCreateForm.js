@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useAuth from '../Hooks/useAuth';
 import { useLocation, Navigate } from 'react-router-dom';
+import Constants from "../Utilities/Constants";
 
 export default function AbsenceCreateForm() {
     const [formData, setFormData] = useState({
@@ -51,7 +52,7 @@ export default function AbsenceCreateForm() {
             leaveEnd: formData.leaveEnd,
         };
 
-        const urlToCreate = `https://localhost:7139/api/Absence`;
+        const urlToCreate = Constants.API_URL_ADD_ABSENCE;
 
         fetch(urlToCreate, {
             method: "POST",

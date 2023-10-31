@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function AddAbsenceType(props) {
 
@@ -20,7 +21,7 @@ export default function AddAbsenceType(props) {
             typeName: formData.typeName,
             days: formData.days,
         };
-        const url = "https://localhost:7139/api/AbsenceType";
+        const url = Constants.API_URL_ADD_ABSENCETYPE;
         fetch(url, {
             method: 'POST',
             headers: {

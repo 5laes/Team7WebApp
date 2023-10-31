@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UpdateAppliance from "./UpdateAppliance";
+import Constants from "../../Utilities/Constants";
 
 export default function Appliances() {
   const [appliances, setAppliances] = useState([]);
@@ -13,9 +14,9 @@ export default function Appliances() {
   }, []);
 
   function getAppliances() {
-    const url = "https://localhost:7139/api/Absence";
-    const url2 = "https://localhost:7139/api/Person";
-    const url3 = "https://localhost:7139/api/AbsenceType";
+    const url = Constants.API_URL_GET_ABSENCE_ALL;
+    const url2 = Constants.API_URL_GET_ABSENCETYPE_ALL;
+    const url3 = Constants.API_URL_GET_PERSON_ALL;
 
     // const url = "https://team777.azurewebsites.net/api/Absence";
     // const url2 = "https://team777.azurewebsites.net/api/Person";

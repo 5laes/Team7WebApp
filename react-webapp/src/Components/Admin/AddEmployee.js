@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function AddEmployee(props) {
 
@@ -24,7 +25,7 @@ export default function AddEmployee(props) {
             email: formData.email,
             age: formData.age,
         };
-        const url = 'https://localhost:7139/api/Person';
+        const url = Constants.API_URL_ADD_PERSON;
         fetch(url, {
             method: 'POST',
             headers: {

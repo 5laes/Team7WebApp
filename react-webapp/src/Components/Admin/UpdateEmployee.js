@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function UpdateEmployee(props) {
     const initialFormData = Object.freeze({
@@ -27,7 +28,7 @@ export default function UpdateEmployee(props) {
             email: formData.email,
             age: formData.age,
         };
-        const url = "https://localhost:7139/api/Person";
+        const url = Constants.API_URL_UPDATE_PERSON;
         fetch(url, {
             method: 'PUT',
             headers: {

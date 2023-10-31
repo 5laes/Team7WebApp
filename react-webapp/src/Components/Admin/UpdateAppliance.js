@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Constants from "../../Utilities/Constants";
 
 export default function UpdateAppliance(props) {
 
@@ -16,7 +17,7 @@ export default function UpdateAppliance(props) {
             pending: formData.pending,
             approved: formData.approved,
         };
-        const url = "https://localhost:7139/api/Absence";
+        const url = Constants.API_URL_UPDATED_ABSENCE;
         fetch(url, {
             method: 'PUT',
             headers: {
