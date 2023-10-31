@@ -21,7 +21,7 @@ export default function AbsenceReports() {
       .then((typefromServer) => {
         console.log(typefromServer);
         setTypes(typefromServer.result);
-        //setShowTable(true);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +52,7 @@ export default function AbsenceReports() {
       typeTotals[typeID] = days;
     }
   });
-  console.table(typeTotals);
+  //console.table(typeTotals);
 
   return (
     <div className="container">
