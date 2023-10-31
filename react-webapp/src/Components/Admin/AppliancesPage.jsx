@@ -15,8 +15,8 @@ export default function Appliances() {
 
   function getAppliances() {
     const url = Constants.API_URL_GET_ABSENCE_ALL;
-    const url2 = Constants.API_URL_GET_ABSENCETYPE_ALL;
-    const url3 = Constants.API_URL_GET_PERSON_ALL;
+    const url2 = Constants.API_URL_GET_PERSON_ALL;
+    const url3 = Constants.API_URL_GET_ABSENCETYPE_ALL;
 
     // const url = "https://team777.azurewebsites.net/api/Absence";
     // const url2 = "https://team777.azurewebsites.net/api/Person";
@@ -62,7 +62,7 @@ export default function Appliances() {
       });
   }
   function deleteAppliance(id) {
-    const url = `https://localhost:7139/api/Absence/${id}`;
+    const url = `${Constants.API_URL_DELETE_ABSENCE}/${id}`;
 
     fetch(url, {
       method: "DELETE",
