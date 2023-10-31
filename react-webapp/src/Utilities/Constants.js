@@ -73,6 +73,6 @@ const production = {
     API_URL_DELETE_ABSENCETYPE: `${API_BASE_URL_PROD}${ENDPOINTS.ABSENCETYPE_GET_ALL}`,
 }
 
-const Constants = process.env.NODE_ENV === 'developement' ? production : developement;
+const Constants = process.env.NODE_ENV === 'developement' ? developement : production;
 
 export default Constants;
